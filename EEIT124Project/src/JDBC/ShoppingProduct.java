@@ -11,9 +11,38 @@ public class ShoppingProduct {
 	 private int productStack;
 	 private String productWarring;
 	 
-	 private String productType;
+	 private int people;
 	
-	private int people;
+	
+
+	public ShoppingProduct(String productId, String productBrand, String productName, int productPrice,
+			String productSpec, int productStack, String productWarring) {
+		super();
+		this.productId = productId;
+		this.productBrand = productBrand;
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productSpec = productSpec;
+		this.productStack = productStack;
+		this.productWarring = productWarring;
+	}
+
+	public ShoppingProduct() {
+		
+	}
+
+	public ShoppingProduct(String productId, String productBrand, String productName, int productPrice,
+			String productSpec, int productStack, String productWarring, int people) {
+		super();
+		this.productId = productId;
+		this.productBrand = productBrand;
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productSpec = productSpec;
+		this.productStack = productStack;
+		this.productWarring = productWarring;
+		this.people = people;
+	}
 
 	public String getProductId() {
 		return productId;
@@ -79,11 +108,5 @@ public class ShoppingProduct {
 		this.people = people;
 	}
 
-	public String getProductType() {
-		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
-	}
+	
 }

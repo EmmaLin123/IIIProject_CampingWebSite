@@ -30,7 +30,7 @@ public int createOrder(String cID, String cName) {
 	  	return oID;
 		
 	}catch(Exception e) {
-	    System.err.println("«Ø¥ß­q³æ®Éµo¥Í¿ù»~:" + e);
+	    System.err.println("å»ºç«‹è¨‚å–®æ™‚ç™¼ç”ŸéŒ¯èª¤:" + e);
 		  return -1;
 	  }
 }
@@ -45,7 +45,7 @@ public boolean deleteDept(int oID) {
       if (deletecount >= 1) return true;
 		  else                  return false;
 	  } catch (Exception e) {
-	    System.err.println("§R°£­q³æ®Éµo¥Í¿ù»~: "+ e);
+	    System.err.println("åˆªé™¤è¨‚å–®æ™‚ç™¼ç”ŸéŒ¯èª¤: "+ e);
 		  return false;
 	  }
   }
@@ -67,7 +67,7 @@ public boolean updateOrder(Cooking cooking,Order order ) {
       if (updatecount >= 1) return true;
       else                  return false;
 	  } catch (Exception e) {
-	    System.err.println("§ó·s­q³æ¸ê®Æ®Éµo¥Í¿ù»~:" + e);
+	    System.err.println("æ›´æ–°è¨‚å–®è³‡æ–™æ™‚ç™¼ç”ŸéŒ¯èª¤:" + e);
 		  return false;
     }
   }
@@ -95,7 +95,7 @@ public boolean updateOrder(Cooking cooking,Order order ) {
 			return cooking;
 			
 		}catch(Exception e) {
-			System.err.println("§ä¤£¨ì¦¹°Ó«~" + e);
+			System.err.println("æ‰¾ä¸åˆ°æ­¤å•†å“" + e);
 		    return null;
 		}
 		
