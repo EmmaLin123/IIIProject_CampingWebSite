@@ -16,7 +16,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 <h2>
 食譜內容
 </h2>
-<!-- <form action=".\RegisterServlet" method="post"> -->
+<form action=".\RecipeServlet" method="post">
 <table  cellspacing="2" cellpadding="1" border="1" width="100%">
 <tr>
     <td width="30">食譜序號</td>
@@ -33,7 +33,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </tr>
 <tr>
     <td width="150">圖片上傳</td>
-    <td><input type="file" name="img"></td>
+    <td><input type="text" name="img" size="100" maxlength="200"></td>
 </tr>
 <tr>
     <td>食材</td>
@@ -82,6 +82,6 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 <center>
 <input type="submit" name="submit" value="送出">
 </center>
-<!-- </form> -->
+</form>
 </body>
 </html>
