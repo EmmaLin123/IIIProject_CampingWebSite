@@ -137,6 +137,8 @@
             <a href="<%=rawQuery%>pageNum=<%=number - 1%>">上一頁</a>&nbsp;
             <a href="<%=rawQuery%>pageNum=<%=number + 1%>">下一頁</a>&nbsp;
             <a href="<%=rawQuery%>pageNum=<%=maxPage%>">末頁</a>
+            <a href="NewRecipe.jsp"><input type="button" value="分享食譜"/></a>
+            
         </td>
     </tr>
     <tr align="center">

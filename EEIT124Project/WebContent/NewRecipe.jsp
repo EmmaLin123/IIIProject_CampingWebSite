@@ -81,6 +81,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </table>
 <center>
 <input type="submit" name="submit" value="送出">
+<a href="Recipe.jsp"><input type="button" value="取消"/></a>
 </center>
 </form>
 </body>

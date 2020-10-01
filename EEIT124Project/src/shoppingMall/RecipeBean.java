@@ -21,6 +21,15 @@ public class RecipeBean {
     	
     }
     
+    public RecipeBean(String reid, String rename, String brief, String image, int people, int time) {
+    	this.reid = reid;
+    	this.rename = rename;
+    	this.brief = brief;
+    	this.image = image;
+    	this.people = people;
+    	this.time = time;
+    }
+    
 public RecipeBean(String reid,String rename,String brief,String image,String ingredient,String tip1,String tip2,String tip3,String tip4,String tip5,
 		String tip6,String note,int people,int time) 
 {
@@ -39,6 +48,12 @@ public RecipeBean(String reid,String rename,String brief,String image,String ing
 	this.people = people;
 	this.time = time;	
     }
+
+
+
+public RecipeBean(String reid) {
+	this.reid = reid;
+}
 
 public String getReid() {
 	return reid;
