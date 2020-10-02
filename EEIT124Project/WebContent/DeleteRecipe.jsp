@@ -10,7 +10,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>§ó·s­¹ÃÐ</title>
+<title>§R°£­¹ÃÐ</title>
 </head>
 <body>
 <h2>

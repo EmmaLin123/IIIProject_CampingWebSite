@@ -62,16 +62,14 @@ public class RecipeDAO {
 		Statement stmt = conn.createStatement();
 		int updatecount = stmt.executeUpdate(sqlString);
 	    stmt.close();
-	    if (updatecount >= 1)
-	    	System.out.println("成功");
-	    else
-	    	System.out.println("失敗");
+	    if (updatecount >= 1) return true;
+	    else                  return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.err.println("更新食譜資料時發生錯誤:" + e);
 			e.printStackTrace();
-			
+			return false;			
 		}	
-	    return false;
+	    
 	}
 	
 	

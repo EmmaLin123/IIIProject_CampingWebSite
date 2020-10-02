@@ -8,10 +8,10 @@ response.setContentType("text/html;charset=UTF-8");
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>完成食譜分享</title>
+<title>食譜更新成功</title>
 </head>
 <body>
-食譜分享成功!<br>
+食譜更新成功!<br>
 <a href="Recipe.jsp"><input type="button" value="回食譜查詢"></a>
 </body>
 </html>

@@ -10,6 +10,9 @@
     h1{
        text-align:center;
     }
+    td{
+    text-align:center
+    }
 </style>
 </head>
 <body>
@@ -73,7 +76,7 @@
         Class.forName(DRIVER);
         conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         stat = conn.createStatement();
-        // get query name from request
+ 
         String rawString = request.getParameter("rename");
         System.out.println(rawString);
         String rawQuery;
@@ -138,6 +141,8 @@
             <a href="<%=rawQuery%>pageNum=<%=number + 1%>">下一頁</a>&nbsp;
             <a href="<%=rawQuery%>pageNum=<%=maxPage%>">末頁</a>
             <a href="NewRecipe.jsp"><input type="button" value="分享食譜"/></a>
+            <a href="UpdateRecipe.jsp"><input type="button" value="更新食譜"/></a>
+            <a href="DeleteRecipe.jsp"><input type="button" value="刪除食譜"/></a>
             
         </td>
     </tr>
@@ -151,7 +156,6 @@
     <tr>
         <td>食譜名稱</td>
         <td>食譜簡述</td>
-        <td>圖片</td>
         <td>份量</td>
         <td>預估時間</td>
     </tr>
@@ -160,9 +164,8 @@
             Recipe recipe = (Recipe)RecipeList.get(j);
     %>
     <tr>
-        <td><%=recipe.getRename()%></td>
+        <td><a href="ThanksDEL.jsp"><img src=<%=recipe.getImage()%> width="200" Height="200"><br><%=recipe.getRename()%></a> </td>
         <td><%=recipe.getBrief()%></td>
-        <td><img src=<%=recipe.getImage()%> width="100" Height="100"></td>
         <td><%=recipe.getPeople()%></td>
         <td><%=recipe.getTime()%></td>
     </tr>

@@ -63,7 +63,6 @@ public class RecipeServlet extends HttpServlet {
 		}
 		if(request.getParameter("Delete")!=null) {
 			gotoDeleteRecipe(request,response);
-			System.out.println("¶i¤J");
 		}else if (request.getParameter("confirm2")!=null) {
 			gotoConfirmDeleteProcess(request, response);
 		}
@@ -89,7 +88,7 @@ public class RecipeServlet extends HttpServlet {
 	    	{
 	    		System.out.println("Get some SQL commands done!");
 		          request.getSession(true).invalidate();
-		          request.getRequestDispatcher("/Thanks.jsp").forward(request,response);
+		          request.getRequestDispatcher("/ThankDEL.jsp").forward(request,response);
 	    	}
 	    	
 	    }catch (NamingException ne) {
@@ -244,7 +243,7 @@ public class RecipeServlet extends HttpServlet {
 	    	{
 	    		System.out.println("Get some SQL commands done!");
 		          request.getSession(true).invalidate();
-		          request.getRequestDispatcher("/Thanks.jsp").forward(request,response);
+		          request.getRequestDispatcher("/ThankUPD.jsp").forward(request,response);
 	    	}
 	    	
 	    }catch (NamingException ne) {
