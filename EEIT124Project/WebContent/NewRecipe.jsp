@@ -16,7 +16,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 <h2>
 食譜內容
 </h2>
-<form action=".\RecipeServlet" method="post">
+<form action=".\RecipeServlet" method="post" enctype="multipart/form-data">
 <table  cellspacing="2" cellpadding="1" border="1" width="100%">
 <tr>
     <td width="30">食譜序號</td>
@@ -32,8 +32,10 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
     <td><textarea name="brief" cols="40" rows="5"></textarea>(限字200個字)</td>
 </tr>
 <tr>
+    
     <td width="150">圖片上傳</td>
-    <td><input type="text" name="img" size="100" maxlength="200"></td>
+    <td><input type="file" name="img"></td>
+    
 </tr>
 <tr>
     <td>食材</td>

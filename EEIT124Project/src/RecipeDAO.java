@@ -23,37 +23,20 @@ public class RecipeDAO {
 			PreparedStatement ptmst=conn.prepareStatement(sql);
 			ResultSet rs = ptmst.executeQuery();
 			while (rs.next()) {
-                String reid = rs.getString("re_id");
-                String rename = rs.getString("re_name");
-                String brief = rs.getString("brief");
-                String image = rs.getString("image");
-                int people = rs.getInt("people");
-                int time = rs.getInt("time");
-                list.add(new RecipeBean(reid,rename,brief,image,people,time)); 
+				RecipeBean recipebean = new RecipeBean();
+                recipebean.setReid(rs.getString("re_id"));
+                recipebean.setRename(rs.getString("re_name"));
+                recipebean.setBrief(rs.getString("brief"));
+                recipebean.setImage(rs.getString("image"));
+                recipebean.setPeople(rs.getInt("people"));
+                recipebean.setTime(rs.getInt("time1"));
+                list.add(recipebean); 
             }
 		}catch (SQLException e) {
             e.printStackTrace();
         }
 		return list;
-	}
-	
-//    public RecipeBean selectById(String id) {
-//    	RecipeBean recipeBean = null;
-//        String sql = "select * from Recipe where re_id = ?";
-//        try {
-//            PreparedStatement statement = conn.prepareStatement(sql);
-//            statement.setString(1, id);
-//            ResultSet rs = statement.executeQuery();
-//            while (rs.next()) {        	
-//            	String reid = rs.getString("re_id");
-//
-//            	recipeBean = new RecipeBean(reid,rename,brief,image,people,time);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return recipeBean;
-//    }
+	}	
 	
 	public boolean DeleteRecipe(RecipeBean recipeBean) {
 		try {

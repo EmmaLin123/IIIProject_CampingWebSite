@@ -88,7 +88,7 @@
             String queryName = new String(rawString.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             sql.append("SELECT * FROM RECIPE WHERE re_name like ").append("'%").append(rawString).append("%'");
             System.out.println(sql);
-            rawQuery = "Recipe.jsp?rename=" + queryName + "&";
+            rawQuery = "Recipe.jsp?rename=" + rawString + "&";
             
         }
         rs = stat.executeQuery(sql.toString());
@@ -108,6 +108,7 @@
 <%
     int pageNum = RecipeList.size();
     int pageSize = 10;
+    System.out.println(pageNum);
 
     String strNum = request.getParameter("pageNum");
     // get current page number
@@ -130,6 +131,7 @@
     int end = number * pageSize;
     if (end > pageNum) {
         end = pageNum;
+        System.out.println(pageNum);
     }
 %>
 <table border="1" width="100%">

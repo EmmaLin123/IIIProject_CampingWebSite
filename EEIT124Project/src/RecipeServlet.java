@@ -1,18 +1,26 @@
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import shoppingMall.RecipeBean;
 
@@ -20,9 +28,11 @@ import shoppingMall.RecipeBean;
  * Servlet implementation class RecipeServlet
  */
 @WebServlet("/RecipeServlet")
+
 public class RecipeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	private static final String UPLOAD_DIRECTORY = "upload";
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 	 private static final String CHARSET_CODE = "UTF-8";
 	 
@@ -45,6 +55,7 @@ public class RecipeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		request.setCharacterEncoding(CHARSET_CODE);
 	    response.setContentType(CONTENT_TYPE);
 	    
@@ -52,6 +63,11 @@ public class RecipeServlet extends HttpServlet {
 		response.setHeader("Pragma","no-cache"); 
 		response.setDateHeader ("Expires", -1); 
 		
+		
+        if(request.getParameter("select")!=null) {
+			gotoSelectProcess(request,response);
+			System.out.println("¶i¤J");
+		}
 		if (request.getParameter("submit")!=null) {
 		     gotoSubmitProcess(request, response);
 		}else if (request.getParameter("confirm")!=null) {
@@ -70,6 +86,47 @@ public class RecipeServlet extends HttpServlet {
 		
 	}
 
+
+	private void gotoSelectProcess(HttpServletRequest request, HttpServletResponse response) {
+		DataSource ds = null;
+	    InitialContext ctxt = null;
+	    Connection conn = null;
+		try {
+            ctxt = new InitialContext();
+	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+	    	conn = ds.getConnection();
+	    	
+	    	Statement stmt = conn.createStatement();    	
+	 
+	        String rawString = request.getParameter("select");
+	        System.out.println(rawString);
+	        String rawQuery;
+	        StringBuilder sql = new StringBuilder();
+	        if (rawString == null || rawString.equals("")) {
+	            sql.append("SELECT * FROM RECIPE");
+	            rawQuery = "Recipe.jsp?";
+	        } else {
+	            String queryName = new String(rawString.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+	            sql.append("SELECT * FROM RECIPE WHERE re_name like ").append("'%").append(rawString).append("%'");
+	            System.out.println(sql);
+	            rawQuery = "Recipe.jsp?rename=" + rawString + "&";   
+	        }
+	        ResultSet rs = stmt.executeQuery(sql.toString());
+	        RecipeDAO recipeDAO = new RecipeDAO(conn);
+	    	recipeDAO.selectAll();
+		}
+	        catch (NamingException ne) {
+			      System.out.println("Naming Service Lookup Exception");  
+			    } catch (SQLException e) {
+			      System.out.println("Database Connection Error"); 
+			    } finally {
+			      try {
+			        if (conn != null) conn.close();
+			      } catch (Exception e) {
+			        System.out.println("Connection Pool Error!");
+			      }
+			    }		
+	}
 
 	private void gotoConfirmDeleteProcess(HttpServletRequest request, HttpServletResponse response) {
 		DataSource ds = null;
