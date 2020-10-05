@@ -54,7 +54,7 @@ public class RecipeSelectServelt extends HttpServlet {
 				pageNo = 1;
 			}
 		}
-		RecipeService service = new RecipeService(); 
+		BookService service = new BookServiceImpl(); 
 		//
 		// 讀取一頁的書籍資料之前，告訴service，現在要讀哪一頁
 		service.setPageNo(pageNo);
