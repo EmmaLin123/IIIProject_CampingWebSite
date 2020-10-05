@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -50,8 +52,12 @@ public class RecipeServlet extends HttpServlet {
 	    
 	    response.setHeader("Cache-Control","no-cache"); 
 		response.setHeader("Pragma","no-cache"); 
-		response.setDateHeader ("Expires", -1); 
+		response.setDateHeader ("Expires", -1);
 		
+		
+		if(request.getParameter("Select")!=null){
+			gotoSelectProcess(request,response);
+		}
 		if (request.getParameter("submit")!=null) {
 		     gotoSubmitProcess(request, response);
 		}else if (request.getParameter("confirm")!=null) {
@@ -68,6 +74,46 @@ public class RecipeServlet extends HttpServlet {
 		}
 		
 		
+	}
+
+
+	private void gotoSelectProcess(HttpServletRequest request, HttpServletResponse response) {
+		DataSource ds = null;
+	    InitialContext ctxt = null;
+	    Connection conn = null;
+	    try {
+	    	ctxt = new InitialContext();
+	    	
+	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+	    	conn = ds.getConnection();
+	    	
+	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
+	    	RecipeBean bean = new RecipeBean();
+	    	String sql = "select * from Recipe";
+	    	Statement stmt = conn.createStatement();
+	     	ResultSet rs= stmt.executeQuery(sql);	    	  	
+	    	
+	     	List RecipeList = new ArrayList();
+	     	while(rs.next()){
+	     		String reid = rs.getString(1);
+	     		String rename = rs.getString(2);
+	     		String brief = rs.getString(3);
+	     		String image = rs.getString(4);
+	     		int people = rs.getInt(13);
+	            int time = rs.getInt(14);
+	            RecipeList.add(new RecipeBean(reid,rename,brief,image,people,time));
+	     	}	
+	     	}catch (NamingException ne) {
+			      System.out.println("Naming Service Lookup Exception");  
+			    } catch (SQLException e) {
+			      System.out.println("Database Connection Error"); 
+			    } finally {
+			      try {
+			        if (conn != null) conn.close();
+			      } catch (Exception e) {
+			        System.out.println("Connection Pool Error!");
+			      }
+			    }
 	}
 
 

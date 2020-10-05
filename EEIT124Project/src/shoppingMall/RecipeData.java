@@ -22,7 +22,7 @@ public class RecipeData {
 			try (Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xepdb1", "project2",
 					"project2");) {
 				connection.setAutoCommit(false);
-				File file = new File("C:\\eclipse\\JavaWorkspace\\menu2 (2).csv");
+				File file = new File("C:\\JAVA\\menu2 (2) .csv");
 				try (FileInputStream fi = new FileInputStream(file);
 						BufferedInputStream bf = new BufferedInputStream(fi);
 						InputStreamReader isr = new InputStreamReader(bf, "MS950");

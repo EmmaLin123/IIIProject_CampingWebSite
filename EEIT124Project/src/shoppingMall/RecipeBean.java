@@ -1,7 +1,9 @@
 package shoppingMall;
 
-public class RecipeBean {
-	
+import java.io.Serializable;
+
+public class RecipeBean implements Serializable {
+	private static final long serialVersionUID = 1L; 
 	String reid;
     String rename;
     String brief;
@@ -30,6 +32,25 @@ public class RecipeBean {
     	this.time = time;
     }
     
+@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("RecipeBean [reid=");
+		builder.append(reid);
+		builder.append(", rename=");
+		builder.append(rename);
+		builder.append(", brief=");
+		builder.append(brief);
+		builder.append(", image=");
+		builder.append(image);
+		builder.append(", people=");
+		builder.append(people);
+		builder.append(", time=");
+		builder.append(time);
+		builder.append("]");
+		return builder.toString();
+	}
+
 public RecipeBean(String reid,String rename,String brief,String image,String ingredient,String tip1,String tip2,String tip3,String tip4,String tip5,
 		String tip6,String note,int people,int time) 
 {
