@@ -54,10 +54,10 @@ public class RecipeServlet extends HttpServlet {
 		response.setHeader("Pragma","no-cache"); 
 		response.setDateHeader ("Expires", -1);
 		
-		
-		if(request.getParameter("Select")!=null){
-			gotoSelectProcess(request,response);
+		if(request.getParameter("select")!=null) {
+			gotoSelectProcess1(request, response);
 		}
+		
 		if (request.getParameter("submit")!=null) {
 		     gotoSubmitProcess(request, response);
 		}else if (request.getParameter("confirm")!=null) {
@@ -77,7 +77,7 @@ public class RecipeServlet extends HttpServlet {
 	}
 
 
-	private void gotoSelectProcess(HttpServletRequest request, HttpServletResponse response) {
+	private void gotoSelectProcess1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DataSource ds = null;
 	    InitialContext ctxt = null;
 	    Connection conn = null;
@@ -88,23 +88,13 @@ public class RecipeServlet extends HttpServlet {
 	    	conn = ds.getConnection();
 	    	
 	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
-	    	RecipeBean bean = new RecipeBean();
-	    	String sql = "select * from Recipe";
-	    	Statement stmt = conn.createStatement();
-	     	ResultSet rs= stmt.executeQuery(sql);	    	  	
-	    	
-	     	List RecipeList = new ArrayList();
-	     	while(rs.next()){
-	     		String reid = rs.getString(1);
-	     		String rename = rs.getString(2);
-	     		String brief = rs.getString(3);
-	     		String image = rs.getString(4);
-	     		int people = rs.getInt(13);
-	            int time = rs.getInt(14);
-	            RecipeList.add(new RecipeBean(reid,rename,brief,image,people,time));
-	     	}	
+	    	List<RecipeBean> list = recipeDAO.selectAll();   	    
+	        request.getSession(true).setAttribute("list", list);
+   			request.getRequestDispatcher("./Recipe.jsp").forward(request,response);    	            
+	     		
 	     	}catch (NamingException ne) {
-			      System.out.println("Naming Service Lookup Exception");  
+			      System.out.println("Naming Service Lookup Exception");
+			      ne.printStackTrace();
 			    } catch (SQLException e) {
 			      System.out.println("Database Connection Error"); 
 			    } finally {
@@ -114,6 +104,7 @@ public class RecipeServlet extends HttpServlet {
 			        System.out.println("Connection Pool Error!");
 			      }
 			    }
+	    
 	}
 
 
@@ -134,7 +125,7 @@ public class RecipeServlet extends HttpServlet {
 	    	{
 	    		System.out.println("Get some SQL commands done!");
 		          request.getSession(true).invalidate();
-		          request.getRequestDispatcher("/ThankDEL.jsp").forward(request,response);
+		          request.getRequestDispatcher("./ThanksDEL.jsp").forward(request,response);
 	    	}
 	    	
 	    }catch (NamingException ne) {

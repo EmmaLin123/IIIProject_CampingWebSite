@@ -19,16 +19,17 @@ public class RecipeDAO {
 	public List<RecipeBean> selectAll(){
 		List list = new ArrayList();
 		String sql = "select * from Recipe order by RE_ID";
+		System.out.println(sql);
 		try {
 			PreparedStatement ptmst=conn.prepareStatement(sql);
 			ResultSet rs = ptmst.executeQuery();
 			while (rs.next()) {
-                String reid = rs.getString("re_id");
-                String rename = rs.getString("re_name");
-                String brief = rs.getString("brief");
-                String image = rs.getString("image");
-                int people = rs.getInt("people");
-                int time = rs.getInt("time");
+                String reid = rs.getString("RE_ID");
+                String rename = rs.getString("RE_Name");
+                String brief = rs.getString("BRIEF");
+                String image = rs.getString("IMAGE");
+                int people = rs.getInt("PEOPLE");
+                int time = rs.getInt("TIME1");
                 list.add(new RecipeBean(reid,rename,brief,image,people,time)); 
             }
 		}catch (SQLException e) {
@@ -37,23 +38,23 @@ public class RecipeDAO {
 		return list;
 	}
 	
-//    public RecipeBean selectById(String id) {
-//    	RecipeBean recipeBean = null;
-//        String sql = "select * from Recipe where re_id = ?";
-//        try {
-//            PreparedStatement statement = conn.prepareStatement(sql);
-//            statement.setString(1, id);
-//            ResultSet rs = statement.executeQuery();
-//            while (rs.next()) {        	
-//            	String reid = rs.getString("re_id");
-//
-//            	recipeBean = new RecipeBean(reid,rename,brief,image,people,time);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return recipeBean;
-//    }
+    public RecipeBean selectByName(String rename) {
+    	RecipeBean recipeBean = null;
+        String sql = "select * from Recipe where RE_NAME like '%"+ ;
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {        	
+            	String reid = rs.getString("re_id");
+
+            	recipeBean = new RecipeBean(reid,rename,brief,image,people,time);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recipeBean;
+    }
 	
 	public boolean DeleteRecipe(RecipeBean recipeBean) {
 		try {
@@ -65,7 +66,7 @@ public class RecipeDAO {
 	    if (updatecount >= 1) return true;
 	    else                  return false;
 		} catch (SQLException e) {
-			System.err.println("§ó·s­¹ÃÐ¸ê®Æ®Éµo¥Í¿ù»~:" + e);
+			System.err.println("ï¿½ï¿½sï¿½ï¿½ï¿½Ð¸ï¿½Æ®Éµoï¿½Í¿ï¿½ï¿½~:" + e);
 			e.printStackTrace();
 			return false;			
 		}	
@@ -96,7 +97,7 @@ public class RecipeDAO {
 		    if (updatecount >= 1) return true;
 		      else                return false;
 		}catch (Exception e) {
-		    System.err.println("§ó·s­¹ÃÐ¸ê®Æ®Éµo¥Í¿ù»~:" + e);
+		    System.err.println("ï¿½ï¿½sï¿½ï¿½ï¿½Ð¸ï¿½Æ®Éµoï¿½Í¿ï¿½ï¿½~:" + e);
 			  return false;
 	}		           
 		}
@@ -128,7 +129,7 @@ public class RecipeDAO {
 		      if (updatecount >= 1) return true;
 		      else                  return false;
 		    }catch (Exception e) {
-			    System.err.println("·s¼W­¹ÃÐ¸ê®Æ®Éµo¥Í¿ù»~:" + e);
+			    System.err.println("ï¿½sï¿½Wï¿½ï¿½ï¿½Ð¸ï¿½Æ®Éµoï¿½Í¿ï¿½ï¿½~:" + e);
 				  return false;
 		}
 	}

@@ -12,40 +12,14 @@
        text-align:center;
     }
     td{
-    text-align:center
+      text-align:center
     }
 </style>
 </head>
 <body>
 <h1>露營料理食譜</h1>
 
-<%-- <% --%>
-//     int pageNum = RecipeList.size();
-//     int pageSize = 10;
-
-//     String strNum = request.getParameter("pageNum");
-//     // get current page number
-//     int number;
-//     if (strNum == null || strNum.equals("0")) {
-//         number = 1;
-//     } else {
-//         number = Integer.parseInt(strNum);
-//     }
-//     int maxPage;
-//     if (pageNum % 10 == 0) {
-//         maxPage = pageNum / 10;
-//     } else {
-//         maxPage = pageNum / 10 + 1;
-//     }
-//     if (number > maxPage) {
-//         number = maxPage;
-//     }
-//     int start = (number - 1) * pageSize;
-//     int end = number * pageSize;
-//     if (end > pageNum) {
-//         end = pageNum;
-//     }
-<%-- %> --%>
+<form action="./RecipeSelectServlet2" method="post">
 <table border="1" width="100%">
     <tr align="center" valign="top">
         <td colspan="10">
@@ -68,21 +42,23 @@
         </td>
     </tr>
     <tr>
-        <td>食譜名稱</td>
-        <td>食譜簡述</td>
-        <td>份量</td>
-        <td>預估時間</td>
+        <th>食譜序號</th>
+        <th>食譜名稱</th>
+        <th>食譜簡述</th>
+        <th>份量</th>
+        <th>預估製作時間</th>
     </tr>
-    
-    <c:forEach varStatus="stVar" var="aRecipeBean" item="${products_DPP}">
+    <c:forEach var='recipe' items='${list}'>
     <tr>
-        <td><img src="${aRecipeBean.Image}"; width="200" Height="200"><br>${aRecipeBean.Rename};</a> </td>
-        <td>${aRecipeBean.Brief}</td>
-        <td>${aRecipeBean.People}</td>
-        <td>${aRecipeBean.Time}</td>
+        <td width="100">${recipe.reid}</td>
+        <td><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename};</a></td>
+        <td>${recipe.brief}</td>
+        <td width="60">${recipe.people}人份</td>
+        <td>${recipe.time}</td>
     </tr>
     </c:forEach>
     
 </table>
+</form>
 </body>
 </html>

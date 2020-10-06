@@ -12,6 +12,6 @@ response.setContentType("text/html;charset=UTF-8");
 </head>
 <body>
 食譜分享成功!<br>
-<a href="Recipe.jsp"><input type="button" value="回食譜查詢"></a>
+<a href="./Recipe.jsp"><input type="button" value="回食譜查詢"></a>
 </body>
 </html>

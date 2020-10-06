@@ -33,7 +33,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </tr>
 <tr>
     <td width="150">圖片上傳</td>
-    <td><input type="text" name="img" size="100" maxlength="200"></td>
+    <td><input type="file" name="img" size="100" maxlength="200"></td>
 </tr>
 <tr>
     <td>食材</td>
