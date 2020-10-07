@@ -44,7 +44,7 @@ public class RecipeDAO implements Serializable {
 	
 	public List<RecipeBean> listAllOf(int StartIndex, int offset){
 		List<RecipeBean> list = new ArrayList<>();
-		String sql = "select* from Recipe WHERE ROWNUM>=? AND ROWNUM <= ?";
+		String sql = "select* from(select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1 from Recipe ORDER BY RE_ID) WHERE rn >= ? AND rn <= ?";
 		
 		try(PreparedStatement pstmt=conn.prepareStatement(sql);){
 			pstmt.setInt(1, StartIndex);

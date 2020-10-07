@@ -46,7 +46,7 @@ public class RecipeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int pageNo = 0;
+		
 		request.setCharacterEncoding(CHARSET_CODE);
 	    response.setContentType(CONTENT_TYPE);
 	    
@@ -54,9 +54,9 @@ public class RecipeServlet extends HttpServlet {
 		response.setHeader("Pragma","no-cache"); 
 		response.setDateHeader ("Expires", -1);
 		
-		if(request.getParameter("select")!=null) {
-			gotoSelectProcess1(request, response);
-		}
+//		if(request.getParameter("select")!=null) {
+//			gotoSelectProcess1(request, response);
+//		}
 		
 		if (request.getParameter("submit")!=null) {
 		     gotoSubmitProcess(request, response);
@@ -77,36 +77,36 @@ public class RecipeServlet extends HttpServlet {
 	}
 
 
-	private void gotoSelectProcess1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DataSource ds = null;
-	    InitialContext ctxt = null;
-	    Connection conn = null;
-	    try {
-	    	ctxt = new InitialContext();
-	    	
-	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
-	    	conn = ds.getConnection();
-	    	
-	    	String re_name = request.getParameter("rename");
-	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
-	    	RecipeBean bean = recipeDAO.selectByName(re_name);  	    
-	        request.getSession(true).setAttribute("bean", bean);
-   			request.getRequestDispatcher("./RecipeDAO.jsp").forward(request,response);    	            
-	     		
-	     	}catch (NamingException ne) {
-			      System.out.println("Naming Service Lookup Exception");
-			      ne.printStackTrace();
-			    } catch (SQLException e) {
-			      System.out.println("Database Connection Error"); 
-			    } finally {
-			      try {
-			        if (conn != null) conn.close();
-			      } catch (Exception e) {
-			        System.out.println("Connection Pool Error!");
-			      }
-			    }
-	    
-	}
+//	private void gotoSelectProcess1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		DataSource ds = null;
+//	    InitialContext ctxt = null;
+//	    Connection conn = null;
+//	    try {
+//	    	ctxt = new InitialContext();
+//	    	
+//	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+//	    	conn = ds.getConnection();
+//	    	
+//	    	String re_name = request.getParameter("rename");
+//	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
+//	    	RecipeBean bean = recipeDAO.selectByName(recipeBean);  	    
+//	        request.getSession(true).setAttribute("bean", bean);
+//   			request.getRequestDispatcher("./RecipeDAO.jsp").forward(request,response);    	            
+//	     		
+//	     	}catch (NamingException ne) {
+//			      System.out.println("Naming Service Lookup Exception");
+//			      ne.printStackTrace();
+//			    } catch (SQLException e) {
+//			      System.out.println("Database Connection Error"); 
+//			    } finally {
+//			      try {
+//			        if (conn != null) conn.close();
+//			      } catch (Exception e) {
+//			        System.out.println("Connection Pool Error!");
+//			      }
+//			    }
+//	    
+//	}
 
 
 	private void gotoConfirmDeleteProcess(HttpServletRequest request, HttpServletResponse response) {

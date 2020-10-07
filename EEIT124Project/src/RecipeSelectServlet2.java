@@ -24,6 +24,7 @@ import shoppingMall.RecipeBean;
 @WebServlet("/RecipeSelectServlet2")
 public class RecipeSelectServlet2 extends HttpServlet {
 	private RecipeDAO dao;
+	
 	private static final long serialVersionUID = 1L;
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 	 private static final String CHARSET_CODE = "UTF-8";

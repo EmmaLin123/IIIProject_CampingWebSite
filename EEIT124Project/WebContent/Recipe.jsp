@@ -64,8 +64,8 @@
                     </li>
 
                     <c:forEach begin="1" end="${totalPages}" varStatus="loop">
-                        <c:set var="active" value="${loop.index==page?'active':''}"/>
-                        <li ${active}">
+                        <c:set var="active" value="${loop.index==page?'page':''}"/>
+                        <li ${page}">
                             <a href="<c:url value="./RecipeSelectServlet2?page=${loop.index}"/>">${loop.index}</a>
                         </li>
                     </c:forEach>
