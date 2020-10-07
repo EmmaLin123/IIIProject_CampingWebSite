@@ -44,7 +44,7 @@ public class RecipeDAO implements Serializable {
 	
 	public List<RecipeBean> listAllOf(int StartIndex, int offset){
 		List<RecipeBean> list = new ArrayList<>();
-		String sql = "select* from(select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1 from Recipe ORDER BY RE_ID) WHERE rn >= ? AND rn <= ?";
+		String sql = "select* from(select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1 from Recipe) WHERE rn >= ? AND rn <= ? ORDER BY RE_ID";
 		
 		try(PreparedStatement pstmt=conn.prepareStatement(sql);){
 			pstmt.setInt(1, StartIndex);
@@ -82,25 +82,32 @@ public class RecipeDAO implements Serializable {
 		return recordCount;
 	}
 	
-    public boolean selectByName(RecipeBean recipeBean) {        
-        try {
-        	String sql = "select * from Recipe where RE_NAME like '%"+recipeBean.getRename()+"'%" ;
+    public List<RecipeBean> selectByName(String a) {   
+    	String sql = "select * from Recipe where RE_NAME like '%"+a+"%'" ;
+    	List<RecipeBean> list = new ArrayList<RecipeBean>();
+        try(PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();) {            
             System.out.println(sql);
-        	Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {        	
-            	return true;
+            	String reid = rs.getString("RE_ID");
+                String rename = rs.getString("RE_Name");
+                String brief = rs.getString("BRIEF");
+                String image = rs.getString("IMAGE");
+                int people = rs.getInt("PEOPLE");
+                int time = rs.getInt("TIME1");
+                list.add(new RecipeBean(reid,rename,brief,image,people,time));          	
+            	
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-		return false;
+		return list;
         
     }
 	
 	public boolean DeleteRecipe(RecipeBean recipeBean) {
 		try {
-		String sqlString = "Delete from Recipe Where re_id='"+recipeBean.getRename()+"'";
+		String sqlString = "Delete from Recipe Where re_id='"+recipeBean.getReid()+"'";
 		System.out.println(sqlString);
 		Statement stmt = conn.createStatement();
 		int updatecount = stmt.executeUpdate(sqlString);

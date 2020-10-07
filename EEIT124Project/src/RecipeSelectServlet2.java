@@ -70,7 +70,7 @@ public class RecipeSelectServlet2 extends HttpServlet {
 	    RecipeDAO dao = new RecipeDAO(conn);
 		
 	    int totalcount = dao.counts();
-		int recipePerPage = 10;
+		int recipePerPage = 6;
 		int endIndex = page*recipePerPage;
 		int totalPages = totalcount % recipePerPage ==0 ? totalcount/recipePerPage:totalcount/recipePerPage+1;
 		int beginIndex = (page-1)*recipePerPage+1;

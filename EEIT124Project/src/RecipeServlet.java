@@ -59,7 +59,8 @@ public class RecipeServlet extends HttpServlet {
 //		}
 		
 		if (request.getParameter("submit")!=null) {
-		     gotoSubmitProcess(request, response);
+			 System.out.println("進入");
+			 gotoSelectProcess(request, response);
 		}else if (request.getParameter("confirm")!=null) {
 		     gotoConfirmProcess(request, response);}
 		if (request.getParameter("reid1")!=null) {
@@ -77,36 +78,36 @@ public class RecipeServlet extends HttpServlet {
 	}
 
 
-//	private void gotoSelectProcess1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		DataSource ds = null;
-//	    InitialContext ctxt = null;
-//	    Connection conn = null;
-//	    try {
-//	    	ctxt = new InitialContext();
-//	    	
-//	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
-//	    	conn = ds.getConnection();
-//	    	
-//	    	String re_name = request.getParameter("rename");
-//	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
-//	    	RecipeBean bean = recipeDAO.selectByName(recipeBean);  	    
-//	        request.getSession(true).setAttribute("bean", bean);
-//   			request.getRequestDispatcher("./RecipeDAO.jsp").forward(request,response);    	            
-//	     		
-//	     	}catch (NamingException ne) {
-//			      System.out.println("Naming Service Lookup Exception");
-//			      ne.printStackTrace();
-//			    } catch (SQLException e) {
-//			      System.out.println("Database Connection Error"); 
-//			    } finally {
-//			      try {
-//			        if (conn != null) conn.close();
-//			      } catch (Exception e) {
-//			        System.out.println("Connection Pool Error!");
-//			      }
-//			    }
-//	    
-//	}
+	private void gotoSelectProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DataSource ds = null;
+	    InitialContext ctxt = null;
+	    Connection conn = null;
+	    try {
+	    	ctxt = new InitialContext();
+	    	
+	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+	    	conn = ds.getConnection();
+	    	
+	    	String rename1 = request.getParameter("re_name");
+	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
+	    	List<RecipeBean> beandata = recipeDAO.selectByName(rename1);  	    
+	        request.getSession(true).setAttribute("beandata", beandata);
+   			request.getRequestDispatcher("/RecipeSelect1.jsp").forward(request,response);    	            
+	     		
+	     	}catch (NamingException ne) {
+			      System.out.println("Naming Service Lookup Exception");
+			      ne.printStackTrace();
+			    } catch (SQLException e) {
+			      System.out.println("Database Connection Error"); 
+			    } finally {
+			      try {
+			        if (conn != null) conn.close();
+			      } catch (Exception e) {
+			        System.out.println("Connection Pool Error!");
+			      }
+			    }
+	    
+	}
 
 
 	private void gotoConfirmDeleteProcess(HttpServletRequest request, HttpServletResponse response) {

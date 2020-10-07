@@ -14,6 +14,15 @@
     td{
       text-align:center
     }
+    li {
+    float:left;
+    text-align:center;
+    list-style-type:none;
+    padding:5px
+    }
+
+
+    
 </style>
 </head>
 <body>
@@ -22,7 +31,7 @@
     <c:set var="totalPages" value="${requestScope.totalPages}"/>
     <c:set var="page" value="${requestScope.page}"/>
     
-<form action="/RecipeSelectServlet2" method="post">
+
 <table border="1" width="100%">
     <tr align="center" valign="top">
         <td colspan="10">
@@ -34,12 +43,12 @@
     <tr align="center">
         <td colspan="10">
             <form action="./RecipeServlet" method="post">
-                食譜關鍵字：<input type="text" name="rename" title=""/><input type="submit" value="查詢"/>
+                食譜關鍵字：<input type="text" name="re_name" title=""/><input type="submit" name="submit" value="查詢"/>
             </form>
         </td>
     </tr>
+ <form action="/RecipeSelectServlet2" method="post">
     <tr>
-        <th>食譜序號</th>
         <th>食譜名稱</th>
         <th>食譜簡述</th>
         <th>份量</th>
@@ -47,20 +56,19 @@
     </tr>
     <c:forEach var='recipe' items='${bean}'>
     <tr>
-        <td width="100">${recipe.reid}</td>
-        <td><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename};</a></td>
+        <td><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename}</a></td>
         <td>${recipe.brief}</td>
         <td width="60">${recipe.people}人份</td>
-        <td>${recipe.time}</td>
+        <td>${recipe.time}分鐘</td>
     </tr>
     </c:forEach>
 </table>
 <div>
         <div>
             <nav>
-                <ul>
-                    <li><a href="<c:url value="./RecipeSelectServlet2?page=1"/>">首页</a></li>
-                    <li><a href="<c:url value="./RecipeSelectServlet2?page=${page-1>1?page-1:1}"/>">&laquo;</a>
+                <ul class="menu">
+                    <li><a href="<c:url value="./RecipeSelectServlet2?page=1"/>">首頁</a></li>
+                    <li><a href="<c:url value="./RecipeSelectServlet2?page=${page-1>1?page-1:1}"/>">上一頁</a>
                     </li>
 
                     <c:forEach begin="1" end="${totalPages}" varStatus="loop">
@@ -70,10 +78,10 @@
                         </li>
                     </c:forEach>
                     <li>
-                        <a href="<c:url value="./RecipeSelectServlet2?page=${page+1<totalPages?page+1:totalPages}"/>">&raquo;</a>
+                        <a href="<c:url value="./RecipeSelectServlet2?page=${page+1<totalPages?page+1:totalPages}"/>">下一頁</a>
                     </li>
                     <li>
-                        <a href="<c:url value="./RecipeSelectServlet2?page=${totalPages}"/>">尾页</a>
+                        <a href="<c:url value="./RecipeSelectServlet2?page=${totalPages}"/>">尾頁</a>
                     </li>
                 </ul>
             </nav>
