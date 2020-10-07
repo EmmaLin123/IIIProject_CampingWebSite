@@ -1,3 +1,6 @@
+import java.awt.color.ICC_Profile;
+import java.io.Serializable;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +11,7 @@ import java.util.List;
 
 import shoppingMall.RecipeBean;
 
-public class RecipeDAO {
+public class RecipeDAO implements Serializable {
 	
 	private Connection conn;
 	
@@ -17,12 +20,12 @@ public class RecipeDAO {
 	}
 	
 	public List<RecipeBean> selectAll(){
-		List list = new ArrayList();
-		String sql = "select * from Recipe order by RE_ID";
+		List<RecipeBean> list = new ArrayList<>();
+		String sql = "select* from Recipe order by RE_ID";
 		System.out.println(sql);
-		try {
-			PreparedStatement ptmst=conn.prepareStatement(sql);
-			ResultSet rs = ptmst.executeQuery();
+		try(PreparedStatement pstmt=conn.prepareStatement(sql);) 
+		{
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
                 String reid = rs.getString("RE_ID");
                 String rename = rs.getString("RE_Name");
@@ -32,33 +35,72 @@ public class RecipeDAO {
                 int time = rs.getInt("TIME1");
                 list.add(new RecipeBean(reid,rename,brief,image,people,time)); 
             }
+			System.out.println(sql);
 		}catch (SQLException e) {
             e.printStackTrace();
         }
 		return list;
 	}
 	
-    public RecipeBean selectByName(String rename) {
-    	RecipeBean recipeBean = null;
-        String sql = "select * from Recipe where RE_NAME like '%"+ ;
-        try {
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, id);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {        	
-            	String reid = rs.getString("re_id");
+	public List<RecipeBean> listAllOf(int StartIndex, int offset){
+		List<RecipeBean> list = new ArrayList<>();
+		String sql = "select* from Recipe WHERE ROWNUM>=? AND ROWNUM <= ?";
+		
+		try(PreparedStatement pstmt=conn.prepareStatement(sql);){
+			pstmt.setInt(1, StartIndex);
+			pstmt.setInt(2, offset);
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(sql);
+			while (rs.next()) {
+                String reid = rs.getString("RE_ID");
+                String rename = rs.getString("RE_Name");
+                String brief = rs.getString("BRIEF");
+                String image = rs.getString("IMAGE");
+                int people = rs.getInt("PEOPLE");
+                int time = rs.getInt("TIME1");
+                list.add(new RecipeBean(reid,rename,brief,image,people,time)); 
+            }
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public int counts() {
+		int recordCount = 0;
+		try (PreparedStatement statement = conn.prepareStatement("SELECT count(*) FROM recipe")) {
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				recordCount = rs.getInt(1);
+			}
 
-            	recipeBean = new RecipeBean(reid,rename,brief,image,people,time);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return recordCount;
+	}
+	
+    public boolean selectByName(RecipeBean recipeBean) {        
+        try {
+        	String sql = "select * from Recipe where RE_NAME like '%"+recipeBean.getRename()+"'%" ;
+            System.out.println(sql);
+        	Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {        	
+            	return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return recipeBean;
+		return false;
+        
     }
 	
 	public boolean DeleteRecipe(RecipeBean recipeBean) {
 		try {
-		String sqlString = "Delete from Recipe Where re_id='"+recipeBean.getReid()+"'";
+		String sqlString = "Delete from Recipe Where re_id='"+recipeBean.getRename()+"'";
 		System.out.println(sqlString);
 		Statement stmt = conn.createStatement();
 		int updatecount = stmt.executeUpdate(sqlString);
@@ -66,7 +108,7 @@ public class RecipeDAO {
 	    if (updatecount >= 1) return true;
 	    else                  return false;
 		} catch (SQLException e) {
-			System.err.println("��s���и�Ʈɵo�Ϳ��~:" + e);
+			System.err.println("食譜刪除未成功!" + e);
 			e.printStackTrace();
 			return false;			
 		}	
@@ -97,7 +139,7 @@ public class RecipeDAO {
 		    if (updatecount >= 1) return true;
 		      else                return false;
 		}catch (Exception e) {
-		    System.err.println("��s���и�Ʈɵo�Ϳ��~:" + e);
+		    System.err.println("食譜更新未成功" + e);
 			  return false;
 	}		           
 		}
@@ -129,7 +171,7 @@ public class RecipeDAO {
 		      if (updatecount >= 1) return true;
 		      else                  return false;
 		    }catch (Exception e) {
-			    System.err.println("�s�W���и�Ʈɵo�Ϳ��~:" + e);
+			    System.err.println("食譜新增未成功" + e);
 				  return false;
 		}
 	}

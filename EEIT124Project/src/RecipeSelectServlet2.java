@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import shoppingMall.RecipeBean;
@@ -22,6 +23,7 @@ import shoppingMall.RecipeBean;
  */
 @WebServlet("/RecipeSelectServlet2")
 public class RecipeSelectServlet2 extends HttpServlet {
+	private RecipeDAO dao;
 	private static final long serialVersionUID = 1L;
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 	 private static final String CHARSET_CODE = "UTF-8";
@@ -39,9 +41,6 @@ public class RecipeSelectServlet2 extends HttpServlet {
 		doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding(CHARSET_CODE);
 	    response.setContentType(CONTENT_TYPE);
@@ -50,24 +49,38 @@ public class RecipeSelectServlet2 extends HttpServlet {
 		response.setHeader("Pragma","no-cache"); 
 		response.setDateHeader ("Expires", -1);
 		
-		gotoSelectProcess(request,response);
 		
-	}
-	private void gotoSelectProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String p = request.getParameter("page");
+		int page;
+		
+		try {page = Integer.valueOf(p);
+		} catch (NumberFormatException e) {
+			page = 1;}
+		
 		DataSource ds = null;
 	    InitialContext ctxt = null;
 	    Connection conn = null;
 	    try {
 	    	ctxt = new InitialContext();
-	    	
 	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
-	    	conn = ds.getConnection();
 	    	
-	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
-	    	List<RecipeBean> list = recipeDAO.selectAll();   	    
-	        request.getSession(true).setAttribute("list", list);
-   			request.getRequestDispatcher("./Recipe.jsp").forward(request,response);    	            
-	     		
+	    	
+	    conn = ds.getConnection();
+	    RecipeDAO dao = new RecipeDAO(conn);
+		
+	    int totalcount = dao.counts();
+		int recipePerPage = 10;
+		int endIndex = page*recipePerPage;
+		int totalPages = totalcount % recipePerPage ==0 ? totalcount/recipePerPage:totalcount/recipePerPage+1;
+		int beginIndex = (page-1)*recipePerPage+1;
+		List<RecipeBean> bean = dao.listAllOf(beginIndex, endIndex);
+		System.out.println(beginIndex);
+		System.out.println(endIndex);
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("page", page);
+		request.setAttribute("bean", bean);
+		request.getRequestDispatcher("Recipe.jsp").forward(request,response);
+			     		
 	     	}catch (NamingException ne) {
 			      System.out.println("Naming Service Lookup Exception");
 			      ne.printStackTrace();
@@ -80,7 +93,8 @@ public class RecipeSelectServlet2 extends HttpServlet {
 			        System.out.println("Connection Pool Error!");
 			      }
 			    }
-	    
+	}	
+		
+		
 	}
-
-}
+	

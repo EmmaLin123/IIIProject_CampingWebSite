@@ -46,7 +46,7 @@ public class RecipeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		int pageNo = 0;
 		request.setCharacterEncoding(CHARSET_CODE);
 	    response.setContentType(CONTENT_TYPE);
 	    
@@ -87,10 +87,11 @@ public class RecipeServlet extends HttpServlet {
 	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");
 	    	conn = ds.getConnection();
 	    	
+	    	String re_name = request.getParameter("rename");
 	    	RecipeDAO recipeDAO = new RecipeDAO(conn);
-	    	List<RecipeBean> list = recipeDAO.selectAll();   	    
-	        request.getSession(true).setAttribute("list", list);
-   			request.getRequestDispatcher("./Recipe.jsp").forward(request,response);    	            
+	    	RecipeBean bean = recipeDAO.selectByName(re_name);  	    
+	        request.getSession(true).setAttribute("bean", bean);
+   			request.getRequestDispatcher("./RecipeDAO.jsp").forward(request,response);    	            
 	     		
 	     	}catch (NamingException ne) {
 			      System.out.println("Naming Service Lookup Exception");
@@ -364,6 +365,7 @@ public class RecipeServlet extends HttpServlet {
 	    	
 	    }catch (NamingException ne) {
 		      System.out.println("Naming Service Lookup Exception");  
+		      ne.printStackTrace();
 		    } catch (SQLException e) {
 		      System.out.println("Database Connection Error"); 
 		    } catch (ServletException e) {

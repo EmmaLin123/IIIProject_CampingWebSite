@@ -18,25 +18,22 @@
 </head>
 <body>
 <h1>露營料理食譜</h1>
-
-<form action="./RecipeSelectServlet2" method="post">
+    <c:set var="bean" value="${requestScope.bean}"/>
+    <c:set var="totalPages" value="${requestScope.totalPages}"/>
+    <c:set var="page" value="${requestScope.page}"/>
+    
+<form action="/RecipeSelectServlet2" method="post">
 <table border="1" width="100%">
     <tr align="center" valign="top">
         <td colspan="10">
-<%--             共<%=maxPage%>頁&nbsp;共<%=pageNum%>條記錄&nbsp;當前是第<%=number%>頁&nbsp; --%>
-<%--             <a href="<%=rawQuery%>pageNum=0">首頁</a>&nbsp; --%>
-<%--             <a href="<%=rawQuery%>pageNum=<%=number - 1%>">上一頁</a>&nbsp; --%>
-<%--             <a href="<%=rawQuery%>pageNum=<%=number + 1%>">下一頁</a>&nbsp; --%>
-<%--             <a href="<%=rawQuery%>pageNum=<%=maxPage%>">末頁</a> --%>
             <a href="NewRecipe.jsp"><input type="button" value="分享食譜"/></a>
             <a href="UpdateRecipe.jsp"><input type="button" value="更新食譜"/></a>
             <a href="DeleteRecipe.jsp"><input type="button" value="刪除食譜"/></a>
-            
         </td>
     </tr>
     <tr align="center">
         <td colspan="10">
-            <form action="Recipe.jsp" method="get">
+            <form action="./RecipeServlet" method="post">
                 食譜關鍵字：<input type="text" name="rename" title=""/><input type="submit" value="查詢"/>
             </form>
         </td>
@@ -48,7 +45,7 @@
         <th>份量</th>
         <th>預估製作時間</th>
     </tr>
-    <c:forEach var='recipe' items='${list}'>
+    <c:forEach var='recipe' items='${bean}'>
     <tr>
         <td width="100">${recipe.reid}</td>
         <td><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename};</a></td>
@@ -57,8 +54,34 @@
         <td>${recipe.time}</td>
     </tr>
     </c:forEach>
-    
 </table>
+<div>
+        <div>
+            <nav>
+                <ul>
+                    <li><a href="<c:url value="./RecipeSelectServlet2?page=1"/>">首页</a></li>
+                    <li><a href="<c:url value="./RecipeSelectServlet2?page=${page-1>1?page-1:1}"/>">&laquo;</a>
+                    </li>
+
+                    <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                        <c:set var="active" value="${loop.index==page?'active':''}"/>
+                        <li ${active}">
+                            <a href="<c:url value="./RecipeSelectServlet2?page=${loop.index}"/>">${loop.index}</a>
+                        </li>
+                    </c:forEach>
+                    <li>
+                        <a href="<c:url value="./RecipeSelectServlet2?page=${page+1<totalPages?page+1:totalPages}"/>">&raquo;</a>
+                    </li>
+                    <li>
+                        <a href="<c:url value="./RecipeSelectServlet2?page=${totalPages}"/>">尾页</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>
+
 </form>
 </body>
 </html>
