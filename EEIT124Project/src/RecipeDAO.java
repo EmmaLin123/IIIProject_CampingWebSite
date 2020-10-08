@@ -19,21 +19,29 @@ public class RecipeDAO implements Serializable {
 		this.conn = conn;
 	}
 	
-	public List<RecipeBean> selectAll(){
+	public List<RecipeBean> selectAll(String a){
 		List<RecipeBean> list = new ArrayList<>();
-		String sql = "select* from Recipe order by RE_ID";
+		String sql = "select* from Recipe where RE_ID = '"+ a +"'";
 		System.out.println(sql);
-		try(PreparedStatement pstmt=conn.prepareStatement(sql);) 
+		try(PreparedStatement statement = conn.prepareStatement(sql);
+	        ResultSet rs = statement.executeQuery();) 
 		{
-			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
                 String reid = rs.getString("RE_ID");
                 String rename = rs.getString("RE_Name");
                 String brief = rs.getString("BRIEF");
                 String image = rs.getString("IMAGE");
+                String ingredient = rs.getString("INGREDIENTS");
+                String tip1 = rs.getString("TIP1");
+                String tip2 = rs.getString("TIP2");
+                String tip3 = rs.getString("TIP3");
+                String tip4 = rs.getString("TIP4");
+                String tip5 = rs.getString("TIP5");
+                String tip6 = rs.getString("TIP6");
+                String note = rs.getString("NOTE");
                 int people = rs.getInt("PEOPLE");
                 int time = rs.getInt("TIME1");
-                list.add(new RecipeBean(reid,rename,brief,image,people,time)); 
+                list.add(new RecipeBean(reid,rename,brief,image,ingredient,tip1,tip2,tip3,tip4,tip5,tip6,note,people,time)); 
             }
 			System.out.println(sql);
 		}catch (SQLException e) {

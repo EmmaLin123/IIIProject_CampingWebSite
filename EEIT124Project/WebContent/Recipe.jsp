@@ -19,10 +19,7 @@
     text-align:center;
     list-style-type:none;
     padding:5px
-    }
-
-
-    
+    }    
 </style>
 </head>
 <body>
@@ -36,8 +33,10 @@
     <tr align="center" valign="top">
         <td colspan="10">
             <a href="NewRecipe.jsp"><input type="button" value="分享食譜"/></a>
-            <a href="UpdateRecipe.jsp"><input type="button" value="更新食譜"/></a>
             <a href="DeleteRecipe.jsp"><input type="button" value="刪除食譜"/></a>
+            <form action="./RecipeServlet" method="post">
+            請輸入更新食譜序號 <input type="text" name="upid" title=""/><input type="submit" name="preUp" value="更新食譜"/>
+            </form>
         </td>
     </tr>
     <tr align="center">
@@ -56,7 +55,7 @@
     </tr>
     <c:forEach var='recipe' items='${bean}'>
     <tr>
-        <td><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename}</a></td>
+        <td><a href="<c:url value="./RecipeContent.jsp"/>"><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename}</a></td>
         <td>${recipe.brief}</td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>
