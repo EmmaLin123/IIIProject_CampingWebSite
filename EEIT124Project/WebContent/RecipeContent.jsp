@@ -19,7 +19,7 @@
 <table border="1" width="80%">
 <a href="<c:url value="./RecipeSelectServlet2?page=1"/>"><input type="button" value="­¹ÃĞ¦Cªí"/></a>
 <c:forEach var='recipe' items='${list}'>
-<tr align="center">
+<tr  align="center">
         <td colspan="8"><h1>${recipe.rename}</h1><br>
             <img src="${recipe.image}" width="500" Height="500" /><br>
             <input type="submit" name="qtysubmit" value="ÁÊ¶R­¹§÷">
