@@ -56,6 +56,7 @@
         <th>食譜簡述</th>
         <th>份量</th>
         <th>預估製作時間</th>
+        <th></th>
     </tr>
     <div class="shadow-sm p-3 mb-5 bg-white rounded">
     <c:forEach var='recipe' items='${bean}'>
@@ -64,6 +65,22 @@
         <td>${recipe.brief}</td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>
+        <form action="<c:url value='BuyBook.do' />" method="POST">
+        <td>購買數量:
+               <select name='qty'>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+        
+        <input type="submit" name="cart" value="放入購物車"><td/>
+        </form>
     </tr>
     </c:forEach>
     </div>
