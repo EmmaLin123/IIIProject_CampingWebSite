@@ -87,56 +87,7 @@ public class RecipeServlet extends HttpServlet {
 
 	}
 
-	private void gotoCheckID(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		DataSource ds = null;
-		InitialContext ctxt = null;
-		Connection conn = null;
-		try {
-			ctxt = new InitialContext();
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
-			conn = ds.getConnection();
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from Recipe");
-			String reidtext = request.getParameter("upid");
-			while (rs.next()) {
-				List list = new ArrayList<>();
-				String reidDB = rs.getString("RE_ID");
-                String rename = rs.getString("RE_Name");
-                String brief = rs.getString("BRIEF");
-                String image = rs.getString("IMAGE");
-                String ingredient = rs.getString("INGREDIENTS");
-                String tip1 = rs.getString("TIP1");
-                String tip2 = rs.getString("TIP2");
-                String tip3 = rs.getString("TIP3");
-                String tip4 = rs.getString("TIP4");
-                String tip5 = rs.getString("TIP5");
-                String tip6 = rs.getString("TIP6");
-                String note = rs.getString("NOTE");
-                int people = rs.getInt("PEOPLE");
-                int time = rs.getInt("TIME1");
-                list.add(new RecipeBean(reidDB,rename,brief,image,ingredient,tip1,tip2,tip3,tip4,tip5,tip6,note,people,time));
-				if (reidtext.equals(reidDB)) {					
-					request.getSession(true).setAttribute("list", list);
-					request.getRequestDispatcher("/UpdateRecipe.jsp").forward(request, response);
-			}
-			}
-			return;
-		} catch (NamingException ne) {
-			System.out.println("Naming Service Lookup Exception");
-			ne.printStackTrace();
-		} catch (SQLException e) {
-			System.out.println("Database Connection Error");
-		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-				System.out.println("Connection Pool Error!");
-			}
-		} 
-	}
-
+	         // ==================模糊查詢====================
 	private void gotoSelectProcess(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		DataSource ds = null;
@@ -169,7 +120,7 @@ public class RecipeServlet extends HttpServlet {
 		}
 
 	}
-
+	// ==================刪除食譜====================
 	private void gotoConfirmDeleteProcess(HttpServletRequest request, HttpServletResponse response) {
 		DataSource ds = null;
 		InitialContext ctxt = null;
@@ -253,7 +204,58 @@ public class RecipeServlet extends HttpServlet {
 		}
 
 	}
-
+	// ==================更新食譜(方法一)====================
+	
+	private void gotoCheckID(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		DataSource ds = null;
+		InitialContext ctxt = null;
+		Connection conn = null;
+		try {
+			ctxt = new InitialContext();
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			conn = ds.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from Recipe");
+			String reidtext = request.getParameter("upid");
+			while (rs.next()) {
+				List list = new ArrayList<>();
+				String reidDB = rs.getString("RE_ID");
+                String rename = rs.getString("RE_Name");
+                String brief = rs.getString("BRIEF");
+                String image = rs.getString("IMAGE");
+                String ingredient = rs.getString("INGREDIENTS");
+                String tip1 = rs.getString("TIP1");
+                String tip2 = rs.getString("TIP2");
+                String tip3 = rs.getString("TIP3");
+                String tip4 = rs.getString("TIP4");
+                String tip5 = rs.getString("TIP5");
+                String tip6 = rs.getString("TIP6");
+                String note = rs.getString("NOTE");
+                int people = rs.getInt("PEOPLE");
+                int time = rs.getInt("TIME1");
+                list.add(new RecipeBean(reidDB,rename,brief,image,ingredient,tip1,tip2,tip3,tip4,tip5,tip6,note,people,time));
+				if (reidtext.equals(reidDB)) {					
+					request.getSession(true).setAttribute("list", list);
+					request.getRequestDispatcher("/UpdateRecipe.jsp").forward(request, response);
+			}
+			}
+			return;
+		} catch (NamingException ne) {
+			System.out.println("Naming Service Lookup Exception");
+			ne.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("Database Connection Error");
+		} finally {
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				System.out.println("Connection Pool Error!");
+			}
+		} 
+	}
+	// ==================更新食譜(方法二)====================
 	private void gotoUpadteProcess(HttpServletRequest request, HttpServletResponse response) {
 		DataSource ds = null;
 		InitialContext ctxt = null;
@@ -272,34 +274,20 @@ public class RecipeServlet extends HttpServlet {
 				String reid = request.getParameter("reid").trim();
 
 				if (re_id.equals(reid)) {
-					String rename;
-					String brief;
-					String image;
-					String ingredient;
-					String tip1;
-					String tip2;
-					String tip3;
-					String tip4;
-					String tip5;
-					String tip6;
-					String note;
-					int people;
-					int time;
-
 					reid = request.getParameter("reid").trim();
-					rename = request.getParameter("rename").trim();
-					brief = request.getParameter("brief").trim();
-					image = request.getParameter("img").trim();
-					ingredient = request.getParameter("INGREDIENTS");
-					tip1 = request.getParameter("tip1").trim();
-					tip2 = request.getParameter("tip2").trim();
-					tip3 = request.getParameter("tip3").trim();
-					tip4 = request.getParameter("tip4").trim();
-					tip5 = request.getParameter("tip5").trim();
-					tip6 = request.getParameter("tip6").trim();
-					note = request.getParameter("note").trim();
-					people = Integer.parseInt(request.getParameter("people"));
-					time = Integer.parseInt(request.getParameter("time"));
+					String rename = request.getParameter("rename").trim();
+					String brief = request.getParameter("brief").trim();
+					String image = request.getParameter("img").trim();
+					String ingredient = request.getParameter("INGREDIENTS");
+					String tip1 = request.getParameter("tip1").trim();
+					String tip2 = request.getParameter("tip2").trim();
+					String tip3 = request.getParameter("tip3").trim();
+					String tip4 = request.getParameter("tip4").trim();
+					String tip5 = request.getParameter("tip5").trim();
+					String tip6 = request.getParameter("tip6").trim();
+					String note = request.getParameter("note").trim();
+					int people = Integer.parseInt(request.getParameter("people"));
+					int time = Integer.parseInt(request.getParameter("time"));
 					RecipeBean rb_recipe = new RecipeBean(reid, rename, brief, image, ingredient, tip1, tip2, tip3,
 							tip4, tip5, tip6, note, people, time);
 					request.getSession(true).setAttribute("rb_recipe", rb_recipe);
@@ -366,38 +354,26 @@ public class RecipeServlet extends HttpServlet {
 		}
 
 	}
+	
+	         // ===================================新增食譜==================================
 
 	private void gotoSubmitProcess(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String reid;
-		String rename;
-		String brief;
-		String image;
-		String ingredient;
-		String tip1;
-		String tip2;
-		String tip3;
-		String tip4;
-		String tip5;
-		String tip6;
-		String note;
-		int people;
-		int time;
 
-		reid = request.getParameter("reid").trim();
-		rename = request.getParameter("rename").trim();
-		brief = request.getParameter("brief").trim();
-		image = request.getParameter("img").trim();
-		ingredient = request.getParameter("INGREDIENTS");
-		tip1 = request.getParameter("tip1").trim();
-		tip2 = request.getParameter("tip2").trim();
-		tip3 = request.getParameter("tip3").trim();
-		tip4 = request.getParameter("tip4").trim();
-		tip5 = request.getParameter("tip5").trim();
-		tip6 = request.getParameter("tip6").trim();
-		note = request.getParameter("note").trim();
-		people = Integer.parseInt(request.getParameter("people"));
-		time = Integer.parseInt(request.getParameter("time"));
+		String reid = request.getParameter("reid").trim();
+		String rename = request.getParameter("rename").trim();
+		String brief = request.getParameter("brief").trim();
+		String image = request.getParameter("img").trim();
+		String ingredient = request.getParameter("INGREDIENTS");
+		String tip1 = request.getParameter("tip1").trim();
+		String tip2 = request.getParameter("tip2").trim();
+		String tip3 = request.getParameter("tip3").trim();
+		String tip4 = request.getParameter("tip4").trim();
+		String tip5 = request.getParameter("tip5").trim();
+		String tip6 = request.getParameter("tip6").trim();
+		String note = request.getParameter("note").trim();
+		int people = Integer.parseInt(request.getParameter("people"));
+		int time = Integer.parseInt(request.getParameter("time"));
 		RecipeBean reg_recipe = new RecipeBean(reid, rename, brief, image, ingredient, tip1, tip2, tip3, tip4, tip5,
 				tip6, note, people, time);
 		request.getSession(true).setAttribute("reg_recipe", reg_recipe);

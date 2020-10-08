@@ -21,7 +21,7 @@
     }    
 </style>
 </head>
-<body>
+<body bgcolor='lightyellow'>
 <h1>露營料理食譜</h1>
 <table border="1" width="100%">
     <tr align="center" valign="top">
@@ -49,7 +49,7 @@
     </tr>
     <c:forEach var='recipe' items='${beandata}'>
     <tr>
-        <td><a href="<c:url value="./RecipeContent.jsp"/>"><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename}</a></td>
+        <td><a href="<c:url value='/RecipeContentServlet?reid=${recipe.reid}'/>"><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename}</a></td>
         <td>${recipe.brief}</td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>

@@ -8,6 +8,7 @@
 <head>
     <title>食譜 的主頁</title>
 <style type="text/css">
+
     h1{
        text-align:center;
     }
@@ -22,11 +23,11 @@
     }    
 </style>
 </head>
-<body>
+<body bgcolor='lightyellow'>
 <h1>露營料理食譜</h1>
-    <c:set var="bean" value="${requestScope.bean}"/>
-    <c:set var="totalPages" value="${requestScope.totalPages}"/>
-    <c:set var="page" value="${requestScope.page}"/>
+<%--     <c:set var="bean" value="${requestScope.bean}"/> --%>
+<%--     <c:set var="totalPages" value="${requestScope.totalPages}"/> --%>
+<%--     <c:set var="page" value="${requestScope.page}"/> --%>
     
 
 <table border="1" width="100%">
@@ -48,6 +49,7 @@
     </tr>
  <form action="/RecipeSelectServlet2" method="post">
     <tr>
+        
         <th>食譜名稱</th>
         <th>食譜簡述</th>
         <th>份量</th>
@@ -55,7 +57,7 @@
     </tr>
     <c:forEach var='recipe' items='${bean}'>
     <tr>
-        <td><a href="<c:url value="./RecipeContent.jsp"/>"><img src="${recipe.image}"; width="200" Height="200"><br>${recipe.rename}</a></td>
+        <td><a href="<c:url value='/RecipeContentServlet?reid=${recipe.reid}'/>"><img src="${recipe.image}" width="300" Height="300" /><br>${recipe.rename}</a></td>
         <td>${recipe.brief}</td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>
