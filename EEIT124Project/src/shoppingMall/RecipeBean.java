@@ -16,20 +16,28 @@ public class RecipeBean implements Serializable {
     String tip5;
     String tip6;
     String note;
+    private Double  price;
+	private Double  discount;
+	private int stock;
     int people;
-    int time;
+    Integer time;
+    private String  	discountStr;
     
     public RecipeBean() {
     	
     }
     
-    public RecipeBean(String reid, String rename, String brief, String image, int people, int time) {
+    public RecipeBean(String reid, String rename, String brief, String image, String ingredient,int people, int time,double price, double discount) {
     	this.reid = reid;
     	this.rename = rename;
     	this.brief = brief;
     	this.image = image;
+    	this.ingredient = ingredient;
     	this.people = people;
     	this.time = time;
+    	this.price = price;
+    	this.discount = discount;
+    	this.stock = 0;
     }
     
 @Override
@@ -52,7 +60,7 @@ public class RecipeBean implements Serializable {
 	}
 
 public RecipeBean(String reid,String rename,String brief,String image,String ingredient,String tip1,String tip2,String tip3,String tip4,String tip5,
-		String tip6,String note,int people,int time) 
+		String tip6,String note,int people,int time, double price, double discount,Integer Stock) 
 {
 	this.reid = reid;
 	this.rename = rename;
@@ -68,9 +76,77 @@ public RecipeBean(String reid,String rename,String brief,String image,String ing
 	this.note = note;
 	this.people = people;
 	this.time = time;	
+	this.price = price;
+	this.discount = discount;
+	this.stock = stock;
     }
 
+public RecipeBean(String reid, String rename, String brief, String image, String ingredient, String tip1, String tip2,
+		String tip3, String tip4, String tip5, String tip6, String note, int people, Integer time) {
+	super();
+	this.reid = reid;
+	this.rename = rename;
+	this.brief = brief;
+	this.image = image;
+	this.ingredient = ingredient;
+	this.tip1 = tip1;
+	this.tip2 = tip2;
+	this.tip3 = tip3;
+	this.tip4 = tip4;
+	this.tip5 = tip5;
+	this.tip6 = tip6;
+	this.note = note;
+	this.people = people;
+	this.time = time;
+}
 
+private String  priceStr = null;
+
+public String getPriceStr() {
+	return priceStr;
+}
+
+public void setPriceStr(String priceStr) {
+	this.priceStr = priceStr;
+}
+
+public Double getPrice() {
+	return price;
+}
+
+public void setPrice(Double price) {
+	this.price = price;
+	if (priceStr == null) {
+		priceStr = String.valueOf(price);
+	}
+}
+
+public Double getDiscount() {
+	return discount;
+}
+
+public void setDiscount(Double discount) {
+	this.discount = discount;
+	if (discount == 1) {
+		discountStr = "";
+	} else {
+		int dnt = (int)(discount * 100);
+		if (dnt % 10 == 0) {
+			discountStr = (dnt / 10) + "折";
+		} else {
+			discountStr = " "  + dnt + "折";
+		} 
+		
+	}
+}
+
+public Integer getStock() {
+	return stock;
+}
+
+public void setStock(Integer stock) {
+	this.stock = stock;
+}
 
 public RecipeBean(String reid) {
 	this.reid = reid;

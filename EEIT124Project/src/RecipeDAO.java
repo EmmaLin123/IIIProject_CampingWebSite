@@ -52,7 +52,7 @@ public class RecipeDAO implements Serializable {
 	
 	public List<RecipeBean> listAllOf(int StartIndex, int offset){
 		List<RecipeBean> list = new ArrayList<>();
-		String sql = "select* from(select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1 from Recipe) WHERE rn >= ? AND rn <= ? ORDER BY RE_ID";
+		String sql = "select* from(select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1,Price,Discount,stock from Recipe) WHERE rn >= ? AND rn <= ? ORDER BY RE_ID";
 		
 		try(PreparedStatement pstmt=conn.prepareStatement(sql);){
 			pstmt.setInt(1, StartIndex);
@@ -64,9 +64,13 @@ public class RecipeDAO implements Serializable {
                 String rename = rs.getString("RE_Name");
                 String brief = rs.getString("BRIEF");
                 String image = rs.getString("IMAGE");
+                String ingredient = rs.getString("INGREDIENTS");
+                double price = rs.getDouble("price");
+                double discount = rs.getDouble("Discount");
                 int people = rs.getInt("PEOPLE");
                 int time = rs.getInt("TIME1");
-                list.add(new RecipeBean(reid,rename,brief,image,people,time)); 
+                Integer stock = rs.getInt("stock");
+                list.add(new RecipeBean(reid,rename,brief,image,ingredient,people,time,price,discount)); 
             }
 			
 		} catch (SQLException e) {
@@ -91,19 +95,24 @@ public class RecipeDAO implements Serializable {
 	}
 	
     public List<RecipeBean> selectByName(String a) {   
-    	String sql = "select * from Recipe where RE_NAME like '%"+a+"%'" ;
+    	String sql = "select * from (select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1,Price,Discount,stock from Recipe) WHERE RE_NAME like '%"+a+"%'" ;
     	List<RecipeBean> list = new ArrayList<RecipeBean>();
         try(PreparedStatement statement = conn.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();) {            
+            ) { 
+			ResultSet rs = statement.executeQuery();
             System.out.println(sql);
             while (rs.next()) {        	
             	String reid = rs.getString("RE_ID");
                 String rename = rs.getString("RE_Name");
                 String brief = rs.getString("BRIEF");
                 String image = rs.getString("IMAGE");
+                String ingredient = rs.getString("INGREDIENTS");
+                double price = rs.getDouble("price");
+                double discount = rs.getDouble("Discount");
                 int people = rs.getInt("PEOPLE");
                 int time = rs.getInt("TIME1");
-                list.add(new RecipeBean(reid,rename,brief,image,people,time));          	
+                
+                list.add(new RecipeBean(reid,rename,brief,image,ingredient,people,time,price,discount));          	
             	
             }
         } catch (SQLException e) {
@@ -177,7 +186,10 @@ public class RecipeDAO implements Serializable {
 					            +recipeData.getTip6()+"','"
 					            +recipeData.getNote()+"','"
 					            +recipeData.getPeople()+"','"
-					            +recipeData.getTime()+"')";
+					            +recipeData.getTime()+"','"
+					            +recipeData.getPrice()+"','"
+					            +recipeData.getDiscount()+"','"
+					            +recipeData.getStock()+"')";
 			
 			Statement stmt = conn.createStatement();
 		    System.out.println(sqlString);

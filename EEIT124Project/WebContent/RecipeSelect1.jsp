@@ -55,11 +55,31 @@
         <td>${recipe.brief}</td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>
+                <form action="<c:url value='./BuyRecipeServlet'/>" method="POST">
+        <td>購買數量:
+               <select name='qty'>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>  
+                  <select/>  
+         <!-- 這些隱藏欄位都會送到後端 -->
+               <Input type='hidden' name='REID' value='${recipe.reid}'>
+               <Input type='hidden' name='rename' value='${recipe.rename}'>
+               <Input type='hidden' name='ingredient' value='${recipe.ingredient}'>
+               <Input type='hidden' name='price' value='${recipe.price}'>
+               <Input type='hidden' name='discount' value='${recipe.discount}'>  
+        <input type="submit" name="cart" value="放入購物車"><td/>
+        </form>
     </tr>
     </c:forEach>
     </div>
 </table>
-</div>
-
 </body>
 </html>

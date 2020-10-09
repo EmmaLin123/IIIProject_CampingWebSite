@@ -24,7 +24,7 @@ import shoppingMall.RecipeBean;
 @WebServlet("/RecipeServlet")
 public class RecipeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 	private static final String CHARSET_CODE = "UTF-8";
 
@@ -58,6 +58,7 @@ public class RecipeServlet extends HttpServlet {
 		response.setHeader("Cache-Control", "no-cache");
 		response.setHeader("Pragma", "no-cache");
 		response.setDateHeader("Expires", -1);
+		
 
 		// ==================模糊查詢====================
 		if (request.getParameter("submit") != null) {
@@ -98,10 +99,18 @@ public class RecipeServlet extends HttpServlet {
 
 			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
 			conn = ds.getConnection();
-
+			String p = request.getParameter("page");
+			int page;
+			
+			try {page = Integer.valueOf(p);
+			} catch (NumberFormatException e) {
+				page = 1;}
+			
+			RecipeDAO recipeDAO = new RecipeDAO(conn);	
 			String rename1 = request.getParameter("re_name");
-			RecipeDAO recipeDAO = new RecipeDAO(conn);
+		
 			List<RecipeBean> beandata = recipeDAO.selectByName(rename1);
+			
 			request.getSession(true).setAttribute("beandata", beandata);
 			request.getRequestDispatcher("/RecipeSelect1.jsp").forward(request, response);
 
@@ -234,6 +243,7 @@ public class RecipeServlet extends HttpServlet {
                 String note = rs.getString("NOTE");
                 int people = rs.getInt("PEOPLE");
                 int time = rs.getInt("TIME1");
+         
                 list.add(new RecipeBean(reidDB,rename,brief,image,ingredient,tip1,tip2,tip3,tip4,tip5,tip6,note,people,time));
 				if (reidtext.equals(reidDB)) {					
 					request.getSession(true).setAttribute("list", list);
@@ -374,8 +384,11 @@ public class RecipeServlet extends HttpServlet {
 		String note = request.getParameter("note").trim();
 		int people = Integer.parseInt(request.getParameter("people"));
 		int time = Integer.parseInt(request.getParameter("time"));
+		double price =0;
+		double discount =0;
+		int stock = 0;
 		RecipeBean reg_recipe = new RecipeBean(reid, rename, brief, image, ingredient, tip1, tip2, tip3, tip4, tip5,
-				tip6, note, people, time);
+				tip6, note, people, time,price,discount,stock);
 		request.getSession(true).setAttribute("reg_recipe", reg_recipe);
 		request.getRequestDispatcher("/DisplayRecipe.jsp").forward(request, response);
 	}

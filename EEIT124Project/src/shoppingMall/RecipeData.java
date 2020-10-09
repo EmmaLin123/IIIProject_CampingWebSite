@@ -39,7 +39,7 @@ public class RecipeData {
 						}
 						
 						PreparedStatement pstmt = connection.prepareStatement(
-								"insert into recipe(RE_id,RE_Name,brief,image,Ingredients,Tip1,Tip2,Tip3,Tip4,Tip5,Tip6,Note,People,Time1) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+								"insert into recipe(RE_id,RE_Name,brief,image,Ingredients,Tip1,Tip2,Tip3,Tip4,Tip5,Tip6,Note,People,Time1,Price,Discount,Stock) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 						pstmt.setString(1, array[0]);
 						pstmt.setString(2, array[1]);
@@ -55,6 +55,9 @@ public class RecipeData {
 						pstmt.setString(12, array[11]);
 						pstmt.setInt(13, Integer.parseInt(array[12]));
 						pstmt.setInt(14, Integer.parseInt(array[13]));
+						pstmt.setDouble(15, Double.parseDouble((array[14])));
+						pstmt.setDouble(16, Double.parseDouble(array[15]));
+						pstmt.setInt(17, Integer.parseInt(array[16]));
 
 						pstmt.addBatch();
 						pstmt.clearParameters();

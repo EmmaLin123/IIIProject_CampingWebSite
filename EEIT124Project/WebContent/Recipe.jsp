@@ -37,6 +37,7 @@
         <td colspan="10">
             <a href="NewRecipe.jsp"><input type="button" value="分享食譜"/></a>
             <a href="DeleteRecipe.jsp"><input type="button" value="刪除食譜"/></a>
+            <a href="<c:url value="./RecipeSelectServlet2?page=1"/>"><input type="button" value="食譜列表"/></a>
             <form action="./RecipeServlet" method="post">
             請輸入更新食譜序號 <input type="text" name="upid" title=""/><input type="submit" name="preUp" value="更新食譜"/>
             </form>
@@ -49,7 +50,7 @@
             </form>
         </td>
     </tr>
- <form action="/RecipeSelectServlet2" method="post">
+ 
     <tr>
         
         <th>食譜名稱</th>
@@ -65,7 +66,7 @@
         <td>${recipe.brief}</td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>
-        <form action="<c:url value='BuyBook.do' />" method="POST">
+        <form action="<c:url value='./BuyRecipeServlet'/>" method="POST">
         <td>購買數量:
                <select name='qty'>
                     <option value="1">1</option>
@@ -77,14 +78,21 @@
                     <option value="7">7</option>
                     <option value="8">8</option>
                     <option value="9">9</option>
-                    <option value="10">10</option>
-        
+                    <option value="10">10</option>  
+                  <select/>  
+         <!-- 這些隱藏欄位都會送到後端 -->
+               <Input type='hidden' name='REID' value='${recipe.reid}'>
+               <Input type='hidden' name='rename' value='${recipe.rename}'>
+               <Input type='hidden' name='ingredient' value='${recipe.ingredient}'>
+               <Input type='hidden' name='price' value='${recipe.price}'>
+               <Input type='hidden' name='discount' value='${recipe.discount}'>  
         <input type="submit" name="cart" value="放入購物車"><td/>
         </form>
     </tr>
     </c:forEach>
     </div>
 </table>
+<form action="/RecipeSelectServlet2" method="post">
 <div>
         <div>
             <nav>
@@ -110,7 +118,6 @@
         </div>
     </div>
 
-</div>
 
 </form>
 </body>
