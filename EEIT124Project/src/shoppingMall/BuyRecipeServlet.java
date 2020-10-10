@@ -1,6 +1,8 @@
 package shoppingMall;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,20 +31,27 @@ public class BuyRecipeServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession(false);
 		
-		RecipeShoppingCart cart = (RecipeShoppingCart)session.getAttribute("ShoppingCart");
+		RecipeShoppingCart cart = (RecipeShoppingCart)session.getAttribute("RecipeShoppingCart");
 		if (cart == null) {
 			// 就新建ShoppingCart物件
 			cart = new RecipeShoppingCart();
 			// 並將此新建ShoppingCart的物件放到session物件內，成為它的屬性物件
-			session.setAttribute("ShoppingCart", cart);   
+			session.setAttribute("RecipeShoppingCart", cart);   
 		}
 		
 		String reid = request.getParameter("REID");
 		String rename = request.getParameter("rename");
 		String ingredient = request.getParameter("ingredient");
+		String page = request.getParameter("page");
 		String qtyStr = request.getParameter("qty");
 		String priceStr = request.getParameter("price");
 		String discountStr = request.getParameter("discount");
+		if (page == null || page.trim().length() == 0){
+			page = (String) session.getAttribute("page") ;
+			if (page == null){
+			   page = "1";
+			} 
+		} 
 		
 		int qty = 0;
 		double price = 0;
@@ -60,6 +69,8 @@ public class BuyRecipeServlet extends HttpServlet {
 				RecipeOrderItem oi = new RecipeOrderItem(reid, qty, price, discount, rename, ingredient);
 				// 將OrderItem物件內加入ShoppingCart的物件內
 				cart.addToCart(reid, oi);
+				RequestDispatcher rd = request.getRequestDispatcher("/RecipeSelectServlet2?page="+page);
+				rd.forward(request, response);
 	}
 
 }

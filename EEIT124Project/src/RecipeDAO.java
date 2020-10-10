@@ -15,6 +15,8 @@ public class RecipeDAO implements Serializable {
 	
 	private Connection conn;
 	
+	private String a;
+	
 	public RecipeDAO(Connection conn) {
 		this.conn = conn;
 	}
@@ -94,12 +96,30 @@ public class RecipeDAO implements Serializable {
 		return recordCount;
 	}
 	
-    public List<RecipeBean> selectByName(String a) {   
-    	String sql = "select * from (select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1,Price,Discount,stock from Recipe) WHERE RE_NAME like '%"+a+"%'" ;
+	public int getRecordCounts(String a) {
+		this.a = a;
+		int count = 0;
+		String sql = "SELECT count(1) FROM recipe WHERE RE_NAME LIKE '%"+a+"%'";
+		try ( PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();) {
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			throw new RuntimeException("發生例外: " + ex.getMessage());
+		}
+		return count;
+	}
+	
+    public List<RecipeBean> selectByName(String a,int StartIndex, int offset) {   
+    	String sql = "select * from (select ROWNUM as rn,RE_ID,RE_NAME,BRIEF,IMAGE,INGREDIENTS,TIP1,TIP2,TIP3,TIP4,TIP5,TIP6,NOTE,PEOPLE,TIME1,Price,Discount,stock from Recipe WHERE RE_NAME like '%"+a+ "%') WHERE rn >= ? AND rn <=?";
     	List<RecipeBean> list = new ArrayList<RecipeBean>();
-        try(PreparedStatement statement = conn.prepareStatement(sql);
+        try(PreparedStatement pstmt = conn.prepareStatement(sql);
             ) { 
-			ResultSet rs = statement.executeQuery();
+        	pstmt.setInt(1, StartIndex);
+			pstmt.setInt(2, offset);
+			ResultSet rs = pstmt.executeQuery();
             System.out.println(sql);
             while (rs.next()) {        	
             	String reid = rs.getString("RE_ID");

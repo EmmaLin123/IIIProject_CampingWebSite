@@ -4,6 +4,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -27,14 +29,35 @@
 </head>
 <body>
 <h1>露營料理食譜</h1>
-<%--     <c:set var="bean" value="${requestScope.bean}"/> --%>
-<%--     <c:set var="totalPages" value="${requestScope.totalPages}"/> --%>
-<%--     <c:set var="page" value="${requestScope.page}"/> --%>
+<c:set var="funcName" value="SHO" scope="session"/>
+<!-- 判斷購物車內是否有商品 -->
+<c:choose>
+   <c:when test="${RecipeShoppingCart.itemNumber > 0}">
+      <!-- 購物車內有一項以上的商品 -->
+      <c:set var="cartContent" value="購物車內有${RecipeShoppingCart.itemNumber}項商品"/>
+   </c:when>
+   <c:otherwise>
+      <!-- 購物車內沒有商品 -->
+      <c:set var="cartContent" value="您尚未購買任何商品"/>        
+   </c:otherwise>
+</c:choose>
     
 
 <table border="1" width="100%">
+<tr>
+<td>${cartContent}</td>
+<td>
+<a href="<c:url value='./ShowRecipeCartContent.jsp?page=${page}' />">
+購物清單
+</a>
+</td>
+<td>
+金額小計(OK):<c:out value="${RecipeShoppingCart.subtotal}" default="0"/> 元
+</td>
+</tr>
     <tr class="table-active" align="center" valign="top">
         <td colspan="10">
+                                第${page}頁 / 共${totalPages}頁            
             <a href="NewRecipe.jsp"><input type="button" value="分享食譜"/></a>
             <a href="DeleteRecipe.jsp"><input type="button" value="刪除食譜"/></a>
             <a href="<c:url value="./RecipeSelectServlet2?page=1"/>"><input type="button" value="食譜列表"/></a>
@@ -45,27 +68,30 @@
     </tr>
     <tr align="center">
         <td colspan="10">
-            <form action="./RecipeServlet" method="post">
+            <form action="./RecipeSelectServlet2" method="post">
                 食譜關鍵字：<input type="text" name="re_name" title=""/><input type="submit" name="submit" value="查詢"/>
             </form>
         </td>
     </tr>
  
     <tr>
-        
         <th>食譜名稱</th>
         <th>食譜簡述</th>
         <th>份量</th>
         <th>預估製作時間</th>
-        <th></th>
+        <th>價格</th>
+        <th>購買食材</th>
     </tr>
     <div class="shadow-sm p-3 mb-5 bg-white rounded">
     <c:forEach var='recipe' items='${bean}'>
     <tr class="table-success">
-        <td><a href="<c:url value='/RecipeContentServlet?reid=${recipe.reid}'/>"><img src="${recipe.image}" width="300" Height="300" /><br>${recipe.rename}</a></td>
-        <td>${recipe.brief}</td>
+        <td><a href="<c:url value='/RecipeContentServlet?reid=${recipe.reid}'/>"><img src="${recipe.image}" width="250" Height="250" /><br>${recipe.rename}</a></td>
+        <td>${recipe.brief}<br><br>
+        <h5>食材:</h5><br>${recipe.ingredient}
+        </td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>
+        <td>${recipe.price}元</td>
         <form action="<c:url value='./BuyRecipeServlet'/>" method="POST">
         <td>購買數量:
                <select name='qty'>
@@ -84,6 +110,7 @@
                <Input type='hidden' name='REID' value='${recipe.reid}'>
                <Input type='hidden' name='rename' value='${recipe.rename}'>
                <Input type='hidden' name='ingredient' value='${recipe.ingredient}'>
+               <Input type='hidden' name='page' value='${param.page}'>
                <Input type='hidden' name='price' value='${recipe.price}'>
                <Input type='hidden' name='discount' value='${recipe.discount}'>  
         <input type="submit" name="cart" value="放入購物車"><td/>
@@ -104,14 +131,14 @@
                     <c:forEach begin="1" end="${totalPages}" varStatus="loop">
                         <c:set var="active" value="${loop.index==page?'page':''}"/>
                         <li ${page}">
-                            <a href="<c:url value="./RecipeSelectServlet2?page=${loop.index}"/>">${loop.index}</a>
+                            <a href="<c:url value="./RecipeSelectServlet2?page=${loop.index}&re_name=${rename1}"/>">${loop.index}</a>
                         </li>
                     </c:forEach>
                     <li>
-                        <a href="<c:url value="./RecipeSelectServlet2?page=${page+1<totalPages?page+1:totalPages}"/>">下一頁</a>
+                        <a href="<c:url value="./RecipeSelectServlet2?page=${page+1<totalPages?page+1:totalPages}&re_name=${rename1}"/>">下一頁</a>
                     </li>
                     <li>
-                        <a href="<c:url value="./RecipeSelectServlet2?page=${totalPages}"/>">尾頁</a>
+                        <a href="<c:url value="./RecipeSelectServlet2?page=${totalPages}&re_name=${rename1}"/>">尾頁</a>
                     </li>
                 </ul>
             </nav>

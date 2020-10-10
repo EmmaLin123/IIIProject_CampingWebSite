@@ -60,10 +60,8 @@ public class RecipeServlet extends HttpServlet {
 		response.setDateHeader("Expires", -1);
 		
 
-		// ==================模糊查詢====================
-		if (request.getParameter("submit") != null) {
-			gotoSelectProcess(request, response);
-		}
+		
+		
 		// ==================新增食譜====================
 		if (request.getParameter("submitInsert") != null) {
 			gotoSubmitProcess(request, response);
@@ -89,46 +87,7 @@ public class RecipeServlet extends HttpServlet {
 	}
 
 	         // ==================模糊查詢====================
-	private void gotoSelectProcess(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		DataSource ds = null;
-		InitialContext ctxt = null;
-		Connection conn = null;
-		try {
-			ctxt = new InitialContext();
 
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
-			conn = ds.getConnection();
-			String p = request.getParameter("page");
-			int page;
-			
-			try {page = Integer.valueOf(p);
-			} catch (NumberFormatException e) {
-				page = 1;}
-			
-			RecipeDAO recipeDAO = new RecipeDAO(conn);	
-			String rename1 = request.getParameter("re_name");
-		
-			List<RecipeBean> beandata = recipeDAO.selectByName(rename1);
-			
-			request.getSession(true).setAttribute("beandata", beandata);
-			request.getRequestDispatcher("/RecipeSelect1.jsp").forward(request, response);
-
-		} catch (NamingException ne) {
-			System.out.println("Naming Service Lookup Exception");
-			ne.printStackTrace();
-		} catch (SQLException e) {
-			System.out.println("Database Connection Error");
-		} finally {
-			try {
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-				System.out.println("Connection Pool Error!");
-			}
-		}
-
-	}
 	// ==================刪除食譜====================
 	private void gotoConfirmDeleteProcess(HttpServletRequest request, HttpServletResponse response) {
 		DataSource ds = null;

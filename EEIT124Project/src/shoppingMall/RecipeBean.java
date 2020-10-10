@@ -21,7 +21,7 @@ public class RecipeBean implements Serializable {
 	private int stock;
     int people;
     Integer time;
-    private String  	discountStr;
+    private String discountStr;
     
     public RecipeBean() {
     	
