@@ -20,7 +20,7 @@ public class RecipeShoppingCart {
 		if (oi.getQty() <= 0 ) {
 			return;
 		}
-		// 如果客戶在伺服器端沒有此項商品的資料，則客戶第一次購買此項商品
+		
 		if ( cart.get(reid) == null ) {
 		    cart.put(reid, oi);
 		} else {
@@ -36,15 +36,15 @@ public class RecipeShoppingCart {
 		if ( cart.get(reid) != null ) {
 		   RecipeOrderItem  oi = cart.get(reid);
 		   oi.setQty(newQty);
-	       //cart.put(bookID, oi);
 	       return true;
 		} else {
 		   return false;
 		}
 	}
 	
+	
 	// 刪除某項商品
-		public int deleteBook(String reid) {
+		public int deleteRecipe(String reid) {
 			if ( cart.get(reid) != null ) {
 		       cart.remove(reid);  // Map介面的remove()方法
 		       return 1;

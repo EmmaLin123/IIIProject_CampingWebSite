@@ -3,7 +3,6 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions"  %>
-
 <%
 response.setHeader("Cache-Control", "no-cache"); //Forces caches to obtain a new copy of the page from the origin server 
 response.setHeader("Cache-Control", "no-store"); //Directs caches not to store the page under any circumstance 
@@ -16,9 +15,10 @@ response.setHeader("Pragma", "no-cache"); //HTTP 1.0 backward compatibility
 <meta charset="UTF-8">
 <title>Show ShoppingCart Content</title>
 <script type="text/javascript">
+
 function confirmDelete(n) {
 	if (confirm("確定刪除此項商品 ? ") ) {
-		document.forms[0].action="<c:url value='UpdateItem.do?cmd=DEL&bookID=" + n +"' />" ;
+		document.forms[0].action="<c:url value='./UpdateRecipeServlet?cmd=DEL&reid=" + n +"' />" ;
 		document.forms[0].method="POST";
 		document.forms[0].submit();
 	} else {
@@ -42,7 +42,7 @@ function modify(key, qty, index) {
 		return ; 
 	}
 	if (confirm("確定將此商品的數量由" + qty + " 改為 " + newQty + " ? ") ) {
-		document.forms[0].action="<c:url value='UpdateItem.do?cmd=MOD&bookID=" + key + "&newQty=" + newQty +"' />" ;
+		document.forms[0].action="<c:url value='./UpdateRecipeServlet?cmd=MOD&reid=" + key + "&newQty=" + newQty +"' />" ;
 		document.forms[0].method="POST";
 		document.forms[0].submit();
 	} else {
@@ -89,6 +89,7 @@ function Abort() {
       <c:set var="subtotal" value="0"/>                
    </c:otherwise>
 </c:choose>
+
 <TABLE style="margin: 0 auto; width:820px; background:#EFEFFB; border:2px solid black;">
 <TR><TD colspan='4'>
 <!--          購物車的標題          --> 
@@ -114,9 +115,9 @@ function Abort() {
    <td>
           <Input id="newQty${vs.index}" name="newQty" type="text" value="<fmt:formatNumber value="${anEntry.value.qty}" />" name="qty" onkeypress="return isNumberKey(event)"  />
           </td>
-   <td><fmt:formatNumber value="${anEntry.value.price * anEntry.value.discount * anEntry.value.qty}" pattern="#,###,###" />元</td>
-   <td><Input type="button" name="update" value="修改" onclick="modify(${anEntry.key}, ${anEntry.value.qty}, ${vs.index})">
-       <Input type="button" name="delete" value="刪除" onclick="confirmDelete(${anEntry.key})"></TD>
+   <td><fmt:formatNumber value="${anEntry.value.price * anEntry.value.qty}" pattern="#,###,###" />元</td>
+   <td><input type="button" name="update" value="修改" onclick="modify(${anEntry.key}, ${anEntry.value.qty},${vs.index})">
+       <input type="button" name="delete" value="刪除" onclick="confirmDelete(${anEntry.key})"></td>
    </tr>
    </c:forEach>
    <tr height='16'>
@@ -135,7 +136,7 @@ function Abort() {
    <a href="<c:url value='./RecipeSelectServlet2?page=${param.page}' />">繼續購物</a>
    </td>
    <td align='center'>
-   <a href="<c:url value='checkout.do' />" onClick="return Checkout(${subtotal});">再次確認</a>
+   <a href="<c:url value='./RecipeCheckoutServlet' />" onClick="return Checkout(${subtotal});">再次確認</a>
    </td>
    <td align='center'>
    <a href="<c:url value='/AbortRecipeServlet' />" onClick="return Abort();">放棄購物</a>

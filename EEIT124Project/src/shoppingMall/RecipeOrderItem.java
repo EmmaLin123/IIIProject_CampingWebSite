@@ -9,7 +9,7 @@ public class RecipeOrderItem {
     Double price = 0.0 ; 
 	Double discount = 1.0 ;
 	
-	public RecipeOrderItem(String reid, int qty, double price, double qtydiscount, String rename, String ingredient) {
+	public RecipeOrderItem(String reid, int qty, double price, double discount, String rename, String ingredient) {
 		this.reid = reid;
 		this.rename= rename;
 		this.ingredient = ingredient;
