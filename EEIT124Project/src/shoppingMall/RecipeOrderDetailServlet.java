@@ -26,12 +26,13 @@ public class RecipeOrderDetailServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String reorderNo = request.getParameter("orderNo");
-		int no = Integer.parseInt(reorderNo.trim());
+		String reorderNo = request.getParameter("reorderNo");
+		int no = Integer.parseInt(reorderNo);
+		System.out.println(no);
 		RecipeOrderService orderService = new RecipeOrderService();
-		RecipeOrderBean ob = orderService.getOrder(no);
-		request.setAttribute("RecipeOrderBean", ob);
-		RequestDispatcher rd = request.getRequestDispatcher("ShowRecipeOrderDetail.jsp");
+		RecipeOrderBean RecipeOrderBean = orderService.getOrder(no);
+		request.setAttribute("RecipeOrderBean", RecipeOrderBean);
+		RequestDispatcher rd = request.getRequestDispatcher("./RecipeShowOrderDetail.jsp");
 		rd.forward(request, response);
 		return;
 	}

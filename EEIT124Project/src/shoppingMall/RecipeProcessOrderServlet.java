@@ -60,9 +60,9 @@ public class RecipeProcessOrderServlet extends HttpServlet {
 		Set<String> set = cart.keySet();
 		for (String k : set) {
 			RecipeOrderItem oi = cart.get(k);   // 經由Map物件的 get方法取出Key所對應的value物件
-			String description = oi.getReid().substring(0, 5) + " " +  
+			String description = "食譜名稱:"+  
                          		 // 比較上下兩行的寫法
-			                     oi.getRename() +  " " +  
+			                     oi.getRename() +  "食材明細: " +  
 			                     oi.getIngredient() ;
 			// 由於表格的Primary Key為自動遞增，為了配合Hibernate，在此主鍵設定為null
 			// (Hibernate規定：自動遞增的主鍵，其對應之物件的欄位必須是null)，絕對不可以是零。

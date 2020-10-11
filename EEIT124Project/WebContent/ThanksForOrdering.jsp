@@ -15,6 +15,7 @@
  感謝您的訂購<BR>
  期待您再度光臨 
   </h1> 
+<h3><a href="<c:url value="./RecipeSelectServlet2?page=1"/>">點擊返回食譜首頁</a></h3>
  <BR>
 </CENTER>
 </body>

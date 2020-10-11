@@ -102,7 +102,7 @@ public class RecipeOrderDao {
 		String sql = "SELECT * FROM Recipeorders WHERE orderno = ? ";
 		String sql1 = "SELECT * FROM RecipeOrderItems"
 				+ ""
-				+ "ms WHERE orderno = ? ";
+				+ " WHERE orderno = ? ";
 		try (
 			Connection con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -143,6 +143,8 @@ public class RecipeOrderDao {
 					set.add(oi);
 				}
 				ob.setItems(set);
+				System.out.println(sql);
+				System.out.println(sql1);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -164,21 +166,27 @@ public class RecipeOrderDao {
 			ex.printStackTrace();
 			throw new RuntimeException("RecipeOrderDao類別#getOrder()-1發生例外: " + ex.getMessage());
 		}
-		List<RecipeOrderBean> list = new ArrayList<RecipeOrderBean>();
-		String sql = "SELECT OrderNo FROM Recipeorders";
+		List<RecipeOrderBean> ob = new ArrayList<RecipeOrderBean>();
+		String sql = "SELECT * FROM Recipeorders";
 		try (
 			Connection conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 		) {
 			while (rs.next()) {
-				Integer no = rs.getInt(1);
-				list.add(getOrder(no));
+				Integer no = rs.getInt("orderNo");
+				String bno = rs.getString("bno");
+				String title = rs.getString("invoiceTitle");
+				Timestamp orderDate = rs.getTimestamp("orderDate");
+				String shipAddr = rs.getString("shippingAddress");
+				Date shipDate = rs.getDate("shippingDate");
+				double totalAmount = rs.getDouble("totalAmount");
+				ob.add(new RecipeOrderBean(no, totalAmount, shipAddr, bno, title, orderDate, shipDate, null));
 			}
 		} catch(SQLException ex){
 			throw new RuntimeException(ex);
 		}
-		return list;
+		return ob;
 	}
 	
 	public List<RecipeOrderBean> getMemberOrders(String memberId) {

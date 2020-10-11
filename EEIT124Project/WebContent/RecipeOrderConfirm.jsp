@@ -86,11 +86,11 @@ function reconfirmOrder() {
    <td style="text-align:left  ;font-size: 11pt;">${anEntry.value.rename}</td>
    <td style="text-align:center;font-size: 11pt;">${fn:substring(anEntry.value.reid, 0, 5)}</td>
    <td style="text-align:center;font-size: 11pt;">${anEntry.value.ingredient}</td>
-   <td style="text-align:right ;font-size: 11pt;"><fmt:formatNumber value="${anEntry.value.price}" pattern="#,###" />元</td>
+   <td style="text-align:right ;font-size: 11pt;"><fmt:formatNumber value="${anEntry.value.price * anEntry.value.discount}" pattern="#,###" />元</td>
    <td style="text-align:right ;font-size: 11pt;">${anEntry.value.qty}</td>
    <td style="text-align:right ;font-size: 11pt;">
    <fmt:formatNumber 
-          	value="${anEntry.value.price * anEntry.value.qty}" pattern="#,###,###" />元
+          	value="${anEntry.value.price * anEntry.value.discount * anEntry.value.qty}" pattern="#,###,###" />元
           </td> 
    </tr>
    </c:forEach>  

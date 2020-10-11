@@ -22,7 +22,7 @@ function confirmDelete(n) {
 		document.forms[0].method="POST";
 		document.forms[0].submit();
 	} else {
-	
+		return;
 	}
 }
 function modify(key, qty, index) {
@@ -105,23 +105,29 @@ function Abort() {
 <TR>
    <TD>
    <table border='1'>
-   <tr width='100'><th>菜餚名稱</th><th  width='50'>食譜序號</th><th width='200'>食材</th><th>單價</th><th>數量</th><th>小計</th><th>修改</th></tr>
+   <tr width='100'><th>菜餚名稱</th><th  width='50'>食譜序號</th><th width='200'>食材</th><th>單價</th><th>優惠</th><th>數量</th><th>小計</th><th>修改</th></tr>
      <c:forEach varStatus="vs" var="anEntry" items="${RecipeShoppingCart.content}">
    <tr>
    <td>${anEntry.value.rename}</td>
    <td>${fn:substring(anEntry.value.reid,0,5)}</td>
    <td>${anEntry.value.ingredient}</td>
    <td><fmt:formatNumber value="${anEntry.value.price}" pattern="#,###" />元</td>
+   <c:if test="${anEntry.value.discount < 1}">
+   <td>${anEntry.value.discount*10}折</td>
+   </c:if>
+   <c:if test="${anEntry.value.discount>=1}">
+   <td></td>
+   </c:if>
    <td>
-          <Input id="newQty${vs.index}" name="newQty" type="text" value="<fmt:formatNumber value="${anEntry.value.qty}" />" name="qty" onkeypress="return isNumberKey(event)"  />
-          </td>
-   <td><fmt:formatNumber value="${anEntry.value.price * anEntry.value.qty}" pattern="#,###,###" />元</td>
+   <input id="newQty${vs.index}" name="newQty" type="text" value="<fmt:formatNumber value="${anEntry.value.qty}" />" name="qty" onkeypress="return isNumberKey(event)" >
+   </td>
+   <td align='right'><fmt:formatNumber value="${anEntry.value.price * anEntry.value.discount * anEntry.value.qty}" pattern="#,###,###" />元</td>
    <td><input type="button" name="update" value="修改" onclick="modify(${anEntry.key}, ${anEntry.value.qty},${vs.index})">
        <input type="button" name="delete" value="刪除" onclick="confirmDelete(${anEntry.key})"></td>
    </tr>
    </c:forEach>
    <tr height='16'>
-   <td colspan='5' align='right'>總計金額：</td>
+   <td colspan='6' align='right'>總計金額：</td>
    <td align='right'><fmt:formatNumber value="${subtotal}" pattern="#,###,###" />元</td>
    <td align='right'>&nbsp;</td>
    </tr>

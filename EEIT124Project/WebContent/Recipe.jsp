@@ -12,12 +12,16 @@
     <title>食譜 的主頁</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <style type="text/css">
+    
 
     h1{
        text-align:center;
     }
     td{
-      text-align:center
+      text-align:center;
+    }
+    h6{
+    text-align:left;
     }
     li {
     float:left;
@@ -51,23 +55,24 @@
 購物清單
 </a>
 </td>
-<td>
+<td colspan="4">
 金額小計(OK):<c:out value="${RecipeShoppingCart.subtotal}" default="0"/> 元
 </td>
 </tr>
     <tr class="table-active" align="center" valign="top">
-        <td colspan="10">
+        <td colspan="6">
                                 第${page}頁 / 共${totalPages}頁            
             <a href="NewRecipe.jsp"><input type="button" value="分享食譜"/></a>
             <a href="DeleteRecipe.jsp"><input type="button" value="刪除食譜"/></a>
             <a href="<c:url value="./RecipeSelectServlet2?page=1"/>"><input type="button" value="食譜列表"/></a>
+            <a href="<c:url value="./RecipeOrderListServlet"/>"><input type="button" value="查看訂單"/></a>
             <form action="./RecipeServlet" method="post">
             請輸入更新食譜序號 <input type="text" name="upid" title=""/><input type="submit" name="preUp" value="更新食譜"/>
             </form>
         </td>
     </tr>
     <tr align="center">
-        <td colspan="10">
+        <td colspan="6">
             <form action="./RecipeSelectServlet2" method="post">
                 食譜關鍵字：<input type="text" name="re_name" title=""/><input type="submit" name="submit" value="查詢"/>
             </form>
@@ -87,13 +92,14 @@
     <tr class="table-success">
         <td><a href="<c:url value='/RecipeContentServlet?reid=${recipe.reid}'/>"><img src="${recipe.image}" width="250" Height="250" /><br>${recipe.rename}</a></td>
         <td>${recipe.brief}<br><br>
-        <h5>食材:</h5><br>${recipe.ingredient}
+        <font><h6>食材:<br>${recipe.ingredient}</h6></font>
         </td>
         <td width="60">${recipe.people}人份</td>
         <td>${recipe.time}分鐘</td>
         <td>${recipe.price}元</td>
         <form action="<c:url value='./BuyRecipeServlet'/>" method="POST">
-        <td>購買數量:
+         
+         <td>購買數量:
                <select name='qty'>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -106,6 +112,7 @@
                     <option value="9">9</option>
                     <option value="10">10</option>  
                   <select/>  
+         
          <!-- 這些隱藏欄位都會送到後端 -->
                <Input type='hidden' name='REID' value='${recipe.reid}'>
                <Input type='hidden' name='rename' value='${recipe.rename}'>
@@ -113,7 +120,11 @@
                <Input type='hidden' name='page' value='${param.page}'>
                <Input type='hidden' name='price' value='${recipe.price}'>
                <Input type='hidden' name='discount' value='${recipe.discount}'>  
-        <input type="submit" name="cart" value="放入購物車"><td/>
+         
+        <input type="submit" name="cart" value="放入購物車">
+        <c:if test="${recipe.discount<1}">
+         <h6><FONT COLOR='RED'>本月主打,購買打${recipe.discount*10}折</h6>                
+         </c:if><td/>
         </form>
     </tr>
     </c:forEach>
@@ -121,8 +132,8 @@
 </table>
 <form action="/RecipeSelectServlet2" method="post">
 <div>
-        <div>
-            <nav>
+        <div >
+            <nav width="100%" align="center">
                 <ul class="menu">
                     <li><a href="<c:url value="./RecipeSelectServlet2?page=1"/>">首頁</a></li>
                     <li><a href="<c:url value="./RecipeSelectServlet2?page=${page-1>1?page-1:1}"/>">上一頁</a>

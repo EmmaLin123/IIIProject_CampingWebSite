@@ -44,12 +44,12 @@ public class UpdateRecipeServlet extends HttpServlet {
 				String cmd = request.getParameter("cmd");
 				String REID = request.getParameter("reid");
 				System.out.println("進入123");
-				if (cmd.equalsIgnoreCase("DEL")) {
+				if (cmd.equals("DEL")) {
 			        sc.deleteRecipe(REID); // 刪除購物車內的某項商品
 			        RequestDispatcher rd = request.getRequestDispatcher("./ShowRecipeCartContent.jsp");
 				    rd.forward(request, response);
 				    return;
-				} else if (cmd.equalsIgnoreCase("MOD")) {
+				} else if (cmd.equals("MOD")) {
 					String newQtyStr = request.getParameter("newQty");
 					int newQty = Integer.parseInt(newQtyStr.trim());
 					System.out.println("進入!!!");
