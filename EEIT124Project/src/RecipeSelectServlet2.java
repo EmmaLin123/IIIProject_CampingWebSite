@@ -102,7 +102,8 @@ public class RecipeSelectServlet2 extends HttpServlet {
 
 	private void gotoCheckID(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
-			DataSource ds = null;
+		HttpSession session = request.getSession(false);
+		    DataSource ds = null;
 			InitialContext ctxt = null;
 			Connection conn = null;
 			try {

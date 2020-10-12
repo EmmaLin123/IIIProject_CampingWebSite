@@ -122,8 +122,8 @@ function Abort() {
    <input id="newQty${vs.index}" name="newQty" type="text" value="<fmt:formatNumber value="${anEntry.value.qty}" />" name="qty" onkeypress="return isNumberKey(event)" >
    </td>
    <td align='right'><fmt:formatNumber value="${anEntry.value.price * anEntry.value.discount * anEntry.value.qty}" pattern="#,###,###" />元</td>
-   <td><input type="button" name="update" value="修改" onclick="modify(${anEntry.key}, ${anEntry.value.qty},${vs.index})">
-       <input type="button" name="delete" value="刪除" onclick="confirmDelete(${anEntry.key})"></td>
+   <td><input type="button" name="update" value="修改" onclick="modify('${anEntry.key}', ${anEntry.value.qty},${vs.index})">
+       <input type="button" name="delete" value="刪除" onclick="confirmDelete('${anEntry.key}')"></td>
    </tr>
    </c:forEach>
    <tr height='16'>
