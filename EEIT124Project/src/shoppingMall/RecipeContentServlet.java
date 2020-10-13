@@ -51,7 +51,7 @@ public class RecipeContentServlet extends HttpServlet {
 		Connection conn = null;
 		try {
 			ctxt = new InitialContext();
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 			conn = ds.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from Recipe");

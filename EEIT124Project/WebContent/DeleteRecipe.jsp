@@ -25,7 +25,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </table>
 <center>
 <input type="submit" name="Delete" value="送出">
-<a href="Recipe.jsp"><input type="button" value="取消"/></a>
+<a href="./RecipeSelectServlet2?page=1"><input type="button" value="取消"/></a>
 </center>
 </form>
 </body>

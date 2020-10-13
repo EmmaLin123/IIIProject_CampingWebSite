@@ -9,7 +9,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="BIG5">
+<meta charset="UTF-8">
 <title>確認食譜內容</title>
 </head>
 <body>
@@ -78,6 +78,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </table>
 <center>
 <input type="submit" name="confirm" value="確認" >
+<a href="./RecipeSelectServlet2?page=1"><input type="button" value="取消" ></a>
 </center>
 </form>
 </body>

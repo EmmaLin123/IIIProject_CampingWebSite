@@ -26,7 +26,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </tr>
 <tr>
     <td>食譜名稱</td>
-    <td><input type="text" name="rename" size="10" maxlength="10" value="${recipe.rename}">   
+    <td><input type="text" name="rename" size="20" maxlength="20" value="${recipe.rename}">   
     </td>
 </tr>
 <tr>
@@ -83,7 +83,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </table>
 <center>
 <input type="submit" name="Update" value="送出">
-<a href="Recipe.jsp"><input type="button" value="取消"/></a>
+<a href="./RecipeSelectServlet2?page=1"><input type="button" value="取消"/></a>
 </center>
 </form>
 </body>

@@ -69,7 +69,7 @@ public class RecipeSelectServlet2 extends HttpServlet {
 	    Connection conn = null;
 	    try {
 	    	ctxt = new InitialContext();
-	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/OracleXE");	    	
+	    	ds = ( DataSource ) ctxt.lookup("java:comp/env/jdbc/xe");	    	
 	    conn = ds.getConnection();
 	    RecipeDAO dao = new RecipeDAO(conn);
 	    int totalcount = dao.counts();
@@ -109,7 +109,7 @@ public class RecipeSelectServlet2 extends HttpServlet {
 			try {
 				ctxt = new InitialContext();
 
-				ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+				ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 				conn = ds.getConnection();
 				String p = request.getParameter("page");
 				int page;

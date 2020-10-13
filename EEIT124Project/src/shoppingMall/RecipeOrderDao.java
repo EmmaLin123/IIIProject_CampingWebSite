@@ -93,7 +93,7 @@ public class RecipeOrderDao {
 		Set<RecipeOrderItemBean> set = null;
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/xe");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException("RecipeOrderDaoImpl類別#getOrder()-1發生例外: " + ex.getMessage());
@@ -161,7 +161,7 @@ public class RecipeOrderDao {
 		DataSource ds = null;
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/xe");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException("RecipeOrderDao類別#getOrder()-1發生例外: " + ex.getMessage());
@@ -193,7 +193,7 @@ public class RecipeOrderDao {
 		DataSource ds = null;
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/xe");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException("OrderDaoImpl類別#getOrder()-1發生例外: " + ex.getMessage());

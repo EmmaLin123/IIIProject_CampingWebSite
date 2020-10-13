@@ -86,8 +86,7 @@ public class RecipeServlet extends HttpServlet {
 
 	}
 
-	         // ==================模糊查詢====================
-
+	       
 	// ==================刪除食譜====================
 	private void gotoConfirmDeleteProcess(HttpServletRequest request, HttpServletResponse response) {
 		DataSource ds = null;
@@ -97,7 +96,7 @@ public class RecipeServlet extends HttpServlet {
 		try {
 			ctxt = new InitialContext();
 
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 			conn = ds.getConnection();
 
 			RecipeDAO recipeDAO = new RecipeDAO(conn);
@@ -135,7 +134,7 @@ public class RecipeServlet extends HttpServlet {
 		Connection conn = null;
 		try {
 			ctxt = new InitialContext();
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 			conn = ds.getConnection();
 
 			Statement stmt = conn.createStatement();
@@ -181,7 +180,7 @@ public class RecipeServlet extends HttpServlet {
 		Connection conn = null;
 		try {
 			ctxt = new InitialContext();
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 			conn = ds.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from Recipe");
@@ -231,7 +230,7 @@ public class RecipeServlet extends HttpServlet {
 		Connection conn = null;
 		try {
 			ctxt = new InitialContext();
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 			conn = ds.getConnection();
 
 			Statement stmt = conn.createStatement();
@@ -292,7 +291,7 @@ public class RecipeServlet extends HttpServlet {
 		try {
 			ctxt = new InitialContext();
 
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 			conn = ds.getConnection();
 
 			RecipeDAO recipeDAO = new RecipeDAO(conn);
@@ -361,7 +360,7 @@ public class RecipeServlet extends HttpServlet {
 		try {
 			ctxt = new InitialContext();
 
-			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/OracleXE");
+			ds = (DataSource) ctxt.lookup("java:comp/env/jdbc/xe");
 			conn = ds.getConnection();
 
 			RecipeDAO recipeDAO = new RecipeDAO(conn);

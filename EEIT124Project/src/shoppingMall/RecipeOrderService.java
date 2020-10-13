@@ -18,7 +18,7 @@ public class RecipeOrderService {
 	public RecipeOrderService() {
 		try {
 			Context ctx = new InitialContext();
-			ds 	  = (DataSource) ctx.lookup("java:comp/env/jdbc/OracleXE");
+			ds 	  = (DataSource) ctx.lookup("java:comp/env/jdbc/xe");
 			roidao = new RecipeOrderItemDao();
 			rodao  = new RecipeOrderDao();
 		} catch (Exception e) {

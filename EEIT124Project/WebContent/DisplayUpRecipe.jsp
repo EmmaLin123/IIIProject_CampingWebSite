@@ -78,6 +78,7 @@ response.setDateHeader ("Expires", -1); // Prevents caching at the proxy server
 </table>
 <center>
 <input type="submit" name="confirmUP" value="確認" >
+<a href="./RecipeSelectServlet2?page=1"><input type="button" value="取消" ></a>
 </center>
 </form>
 </body>
